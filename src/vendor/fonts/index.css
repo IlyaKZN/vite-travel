@@ -2,40 +2,40 @@
   font-family: 'Inter';
   font-style: normal;
   font-weight: 300;
-  src: url("./Inter/Inter-Light.ttf") format("truetype");
+  src: url('./Inter/Inter-Light.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
-  src: url("./Inter/Inter-Regular.ttf") format("truetype");
+  src: url('./Inter/Inter-Regular.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 600;
-  src: url("./Inter/Inter-SemiBold.ttf") format("truetype");
+  src: url('./Inter/Inter-SemiBold.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 700;
-  src: url("./Inter/Inter-Bold.ttf") format("truetype");
+  src: url('./Inter/Inter-Bold.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 800;
-  src: url("./Inter/Inter-ExtraBold.ttf") format("truetype");
+  src: url('./Inter/Inter-ExtraBold.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Inter';
   font-style: italic;
   font-weight: 400;
-  src: url("./InterItalic/Inter-Regular-Italic.ttf") format("truetype");
+  src: url('./InterItalic/Inter-Regular-Italic.ttf') format('truetype');
 }

@@ -2,21 +2,21 @@
   <header class="header">
     <div class="header__content">
       <RouterLink
-      to="/"
-      class="logo"/>
+      class="logo"
+      to="/"/>
       <nav class="header__navigation">
         <ul class="header__navigation-list">
           <li class="header__navigation-item">
             <RouterLink
-            to="/signin"
-            class="header__signin-link">
+            class="header__signin-link"
+            to="/signin">
               Вход
             </RouterLink>
           </li>
           <li class="header__navigation-item">
             <RouterLink
-            to="/signup"
-            class="header__signup-link">
+            class="header__signup-link"
+            to="/signup">
               Регистрация
             </RouterLink>
           </li>
@@ -30,43 +30,47 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+  import { defineComponent } from 'vue';
 
-export default defineComponent({
-  name: 'TheHeader',
-});
+  export default defineComponent({
+    name: 'TheHeader',
+  });
 </script>
 
 <style lang="scss">
-  @import '@/styles/variables.scss';
+  @import '@/styles/variables';
 
   .header {
     height: 80px;
     width: 100%;
+
     background: $primaryColor;
   }
 
   .header__content {
-    margin: 0 auto;
-    max-width: 1140px;
-    width: 100%;
-    height: 100%;
     display: flex;
     align-items: center;
+
+    width: 100%;
+    max-width: 1140px;
+    height: 100%;
+    margin: 0 auto;
   }
 
   .logo {
-    height: 62px;
-    width: 222px;
     display: block;
+
+    width: 222px;
+    height: 62px;
+
     background-image: url('../assets/WeTravel.svg');
     background-repeat: no-repeat;
-    background-size: contain;
     background-position: center;
+    background-size: contain;
   }
 
   .header__signin-link {
-    color: white;
+    color: #fff;
     text-decoration: none;
     font-size: 16px;
     line-height: 20px;
@@ -74,14 +78,16 @@ export default defineComponent({
   }
 
   .header__signup-link {
-    color: $primaryColor;
-    background-color: white;
-    text-decoration: none;
-    padding: 17px 41px;
-    border-radius: 18px;
     font-size: 16px;
-    line-height: 20px;
     font-weight: 700;
+    line-height: 20px;
+    color: $primaryColor;
+    text-decoration: none;
+
+    padding: 17px 41px;
+
+    background-color: #fff;
+    border-radius: 18px;
   }
 
   .header__navigation {
@@ -90,19 +96,22 @@ export default defineComponent({
   }
 
   .header__navigation-list {
-    display: flex;
     list-style-type: none;
+
+    display: flex;
     gap: 48px;
   }
 
   .header__lang-button {
-    border: none;
-    background: none;
     font-size: 15px;
-    line-height: 18px;
     font-weight: 400;
-    color: white;
+    line-height: 18px;
+    color: #fff;
     text-transform: uppercase;
+
     cursor: pointer;
+
+    background: none;
+    border: 0;
   }
 </style>

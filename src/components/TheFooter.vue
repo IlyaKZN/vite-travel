@@ -2,15 +2,15 @@
   <footer class="footer">
     <div class="social-networks-links-container">
       <a
-      href="https://vk.com"
-      class="social-network-link"
       aria-label="link to vk.com"
-      :style="{backgroundImage: `url(${require('../assets/vk-logo.svg')})`}"/>
-      <a
-      href="https://web.telegram.org/"
       class="social-network-link"
+      href="https://vk.com"
+      :style="{ backgroundImage: `url(${vkLogo})` }"/>
+      <a
       aria-label="link to web.telegram.org"
-      :style="{backgroundImage: `url(${require('../assets/tg-logo.svg')})`}"/>
+      class="social-network-link"
+      href="https://web.telegram.org/"
+      :style="{ backgroundImage: `url(${tgLogo})` }"/>
     </div>
     <div class="info-container">
       <RouterLink
@@ -41,51 +41,68 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+  import { defineComponent } from 'vue';
+  import vkLogo from '@/assets/vk-logo.svg';
+  import tgLogo from '@/assets/tg-logo.svg';
 
-export default defineComponent({
-  name: 'TheFooter',
-});
+  export default defineComponent({
+    name: 'TheFooter',
+    setup() {
+      return {
+        vkLogo,
+        tgLogo,
+      };
+    },
+  });
 </script>
 
-<style lang="sass">
+<style lang="scss">
+  .footer {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-.footer
-  margin-bottom: 80px
-  padding-top: 70px
-  box-sizing: border-box
-  width: 100%
-  display: flex
-  flex-direction: column
-  align-items: center
+    width: 100%;
+    padding-top: 70px;
+    margin-bottom: 80px;
+  }
 
-.social-networks-links-container
-  display: flex
-  gap: 55px
-  margin-bottom: 46px
+  .social-networks-links-container {
+    display: flex;
+    gap: 55px;
 
-.social-network-link
-  display: block
-  height: 55px
-  width: 55px
-  background-size: cover
-  background-position: center
+    margin-bottom: 46px;
+  }
 
-.info-container
-  margin-bottom: 42px
-  display: flex
-  gap: 70px
+  .social-network-link {
+    display: block;
 
-.info-link
-  text-decoration: none
-  color: black
-  font-size: 18px
-  line-height: 22px
-  font-weight: 400
+    height: 55px;
+    width: 55px;
 
-.signature
-  font-weight: 300
-  font-size: 10px
-  line-height: 12px
+    background-size: cover;
+    background-position: center;
+  }
 
+  .info-container {
+    display: flex;
+    gap: 70px;
+
+    margin-bottom: 42px;
+  }
+
+  .info-link {
+    text-decoration: none;
+    color: #000;
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 400;
+  }
+
+  .signature {
+    font-weight: 300;
+    font-size: 10px;
+    line-height: 12px;
+  }
 </style>
