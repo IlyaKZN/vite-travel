@@ -1,32 +1,32 @@
 <template>
   <form
-  class="form"
-  @submit.prevent="submitForm">
+  @submit.prevent="submitForm"
+  class="form">
     <h1 class="title">
-      Добро пожаловать<br/>в <span class="span">We</span>Travel
+      Добро пожаловать<br>в <span class="span">We</span>Travel
     </h1>
     <div class="inputs-field">
       <BaseInput
       v-model="email"
-      placeholder="Электронная почта/ Номер телефона"
       name="email"
+      placeholder="Электронная почта/ Номер телефона"
       type="email"/>
       <BaseInput
       v-model="password"
-      placeholder="Пароль"
       name="password"
+      placeholder="Пароль"
       type="password"/>
     </div>
     <div class="checkbox-container">
       <input
-      id="remember"
       class="checkbox"
+      name="remember"
       type="checkbox"
-      name="remember"/>
+      id="remember">
       <label for="remember">Запомнить меня</label>
       <RouterLink
-      to="/"
-      class="forgot-password-link">
+      class="forgot-password-link"
+      to="/">
         Забыли пароль?
       </RouterLink>
     </div>
@@ -38,8 +38,8 @@
         Новый пользователь?
       </p>
       <RouterLink
-      to="/signin"
-      class="signup-link">
+      class="signup-link"
+      to="/signin">
         Зарегистрироваться
       </RouterLink>
     </div>
@@ -47,13 +47,13 @@
     <p class="agreement">
       Авторизуясь, вы соглашаетесь с
       <RouterLink
-      to="/"
-      class="terms-link">
+      class="terms-link"
+      to="/">
         Лицензионным соглашением
       </RouterLink> и
       <RouterLink
-      to="/"
-      class="terms-link">
+      class="terms-link"
+      to="/">
         Политикой конфиденциальности
       </RouterLink>.
     </p>
@@ -61,94 +61,101 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import BaseInput from '../ui-kit/Input.vue';
-import BaseButton from '../ui-kit/Button.vue';
-import AlternativeAuth from './AlternativeAuth.vue';
+  import { defineComponent } from 'vue';
+  import BaseInput from '../ui-kit/Input.vue';
+  import BaseButton from '../ui-kit/Button.vue';
+  import AlternativeAuth from './AlternativeAuth.vue';
 
-export default defineComponent({
-  name: 'SignInForm',
-  components: {
-    BaseInput,
-    BaseButton,
-    AlternativeAuth,
-  },
-  data() {
-    return {
-      name: '',
-      email: '',
-      password: '',
-      repeatedPassword: '',
-      birthDate: '',
-      phoneNumber: '',
-    };
-  },
-  methods: {
-    submitForm() {
-      console.log('Форма отправлена');
+  export default defineComponent({
+    name: 'SignInForm',
+    components: {
+      BaseInput,
+      BaseButton,
+      AlternativeAuth,
     },
-  },
-});
+    methods: {
+      submitForm() {
+        console.log('Форма отправлена');
+      },
+    },
+    data() {
+      return {
+        name: '',
+        email: '',
+        password: '',
+        repeatedPassword: '',
+        birthDate: '',
+        phoneNumber: '',
+      };
+    },
+  });
 </script>
 
 <style lang="scss">
-  @import '@/styles/variables.scss';
+  @import '@/styles/variables';
 
   .form {
     box-sizing: border-box;
-    padding: 50px 52px 70px;
-    background-color: white;
-    max-width: 500px;
-    width: 100%;
-    border-radius: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    width: 100%;
+    max-width: 500px;
+    padding: 50px 52px 70px;
+
+    background-color: #fff;
+    border-radius: 40px;
   }
 
   .title {
-    margin: 0 0 67px;
     font-size: 32px;
-    line-height: 38px;
     font-weight: 600;
+    line-height: 38px;
     text-align: center;
+
+    margin: 0 0 67px;
   }
 
   .span {
-    color: #F0953D;
+    color: #f0953d;
     font-style: italic;
     font-weight: 400;
   }
 
   .inputs-field {
-    margin-bottom: 25px;
-    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 10px;
+
+    width: 100%;
+    margin-bottom: 25px;
   }
 
   .description {
     font-size: 15px;
     line-height: 18px;
     font-weight: 300;
+
     margin: 0;
   }
 
   .description-container {
-    margin: 20px 0;
     display: flex;
+    gap: 3px;
     align-items: center;
     justify-content: center;
-    gap: 3px;
+
+    margin: 20px 0;
   }
 
   %link {
-    margin-left: 2px;
-    text-decoration: none;
     font-size: 15px;
-    line-height: 18px;
     font-weight: 700;
+    line-height: 18px;
+    text-decoration: none;
+
+    margin-left: 2px;
   }
 
   .signup-link {
@@ -162,10 +169,11 @@ export default defineComponent({
   }
 
   .agreement {
-    margin: 25px 0 0 0;
     font-size: 9px;
     line-height: 11px;
     text-align: center;
+
+    margin: 25px 0 0;
   }
 
   .terms-link {
@@ -177,28 +185,34 @@ export default defineComponent({
   .checkbox {
     position: absolute;
     z-index: -1;
+
     opacity: 0;
   }
 
   .checkbox+label {
-    display: inline-flex;
-    align-items: center;
-    user-select: none;
     font-size: 15px;
     line-height: 18px;
+
+    display: inline-flex;
+    align-items: center;
+
+    user-select: none;
   }
 
   .checkbox+label::before {
-    content: '';
     display: inline-block;
+    flex-grow: 0;
+    flex-shrink: 0;
+
     width: 1em;
     height: 1em;
-    flex-shrink: 0;
-    flex-grow: 0;
+    margin-right: 0.5em;
+
+    cursor: pointer;
+    content: '';
+
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 0.25em;
-    margin-right: 0.5em;
-    cursor: pointer;
   }
 
   .checkbox:checked+label::before {
@@ -206,9 +220,10 @@ export default defineComponent({
   }
 
   .checkbox-container {
-    width: 100%;
     display: flex;
-    margin-bottom: 24px;
     justify-content: space-between;
+
+    width: 100%;
+    margin-bottom: 24px;
   }
 </style>

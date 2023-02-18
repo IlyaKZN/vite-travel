@@ -3,7 +3,7 @@
     <FindGroup/>
 
     <div class="main-screen__layout">
-      <TourismTypesCarousel/>
+      <CarouselComponent :slidesData="tourismTypesData"/>
 
       <TravelDestinationsWidget/>
 
@@ -21,56 +21,92 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import FindGroup from './FindGroup.vue';
-import TourismTypesCarousel from './TourismTypesCarousel.vue';
-import TravelDestinationsWidget from '@/components/TravelDestinationsWidget.vue';
-import NewsFeed from '@/components/NewsFeed.vue';
-import MoreInfoAccordion from '@/components/MoreInfoAccordion.vue';
+  import { defineComponent } from 'vue';
+  import FindGroup from './FindGroup.vue';
+  import TravelDestinationsWidget from './TravelDestinationsWidget.vue';
+  import NewsFeed from './NewsFeed.vue';
+  import MoreInfoAccordion from './MoreInfoAccordion.vue';
+  import CarouselComponent from '@/components/CarouselComponent.vue';
+  import cyclingImg from '@/assets/tourism-types/cycling.png';
+  import kayakingImg from '@/assets/tourism-types/kayaking.png';
+  import mountainImg from '@/assets/tourism-types/mountain.png';
+  import onFootImg from '@/assets/tourism-types/onFoot.png';
 
-export default defineComponent({
-  name: 'MainScreen',
-  components: {
-    FindGroup,
-    TourismTypesCarousel,
-    TravelDestinationsWidget,
-    NewsFeed,
-    MoreInfoAccordion,
-  },
-});
+  export default defineComponent({
+    name: 'MainScreen',
+    components: {
+      FindGroup,
+      TravelDestinationsWidget,
+      NewsFeed,
+      MoreInfoAccordion,
+      CarouselComponent,
+    },
+    setup() {
+      const tourismTypesData = [
+        {
+          image: cyclingImg,
+          name: 'Каякинг',
+          link: '/test',
+        },
+        {
+          image: kayakingImg,
+          name: 'Горный',
+          link: '/test',
+        },
+        {
+          image: mountainImg,
+          name: 'Пеший',
+          link: '/test',
+        },
+        {
+          image: onFootImg,
+          name: 'Велотуризм',
+          link: '/test',
+        },
+      ];
+
+      return {
+        tourismTypesData,
+      };
+    },
+  });
 </script>
 
 <style lang="scss">
-  @import '@/styles/variables.scss';
+  @import '@/styles/variables';
 
   .main-screen__layout {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 925px;
+
     width: 100%;
+    max-width: 925px;
     margin: 0 auto;
-    box-sizing: border-box;
   }
 
   .main-screen__find-group-link {
-    margin-bottom: 120px;
-    height: 166px;
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 62px;
+    color: #fff;
+    text-decoration: none;
+
+    box-sizing: border-box;
     display: flex;
+    align-items: center;
+
+    width: 100%;
+    height: 166px;
+    padding-left: 100px;
+    margin-bottom: 120px;
+
     background-color: $primaryColor;
     background-image: url('@/assets/plane.svg');
+    filter: drop-shadow(0 6px 5px rgba(0, 0, 0, 0.25));
     background-repeat: no-repeat;
     background-position: right;
-    color: white;
-    text-decoration: none;
-    width: 100%;
-    font-size: 50px;
-    line-height: 62px;
-    font-weight: 700;
     border-radius: 35px;
-    align-items: center;
-    padding-left: 100px;
-    box-sizing: border-box;
-    filter: drop-shadow(0 6px 5px rgba(0, 0, 0, 0.25));
   }
 </style>

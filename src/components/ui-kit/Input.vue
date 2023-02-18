@@ -6,73 +6,76 @@
   </label>
 
   <input
-  :id="id"
+  @input="updateInput"
   class="input"
-  :type="type"
   :name="name"
   :placeholder="placeholder"
+  :type="type"
   :value="modelValue"
-  @input="updateInput"/>
+  :id="id">
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+  import { defineComponent, PropType } from 'vue';
 
-export default defineComponent({
-  name: 'BaseInput',
-  props: {
-    placeholder: {
-      type: String,
-      required: true,
+  export default defineComponent({
+    name: 'BaseInput',
+    props: {
+      placeholder: {
+        type: String,
+        required: true,
+      },
+      name: {
+        type: String,
+        required: true,
+      },
+      type: {
+        type: String as PropType<'text' | 'password' | 'email' | 'date'>,
+        default: 'text',
+      },
+      modelValue: {
+        type: [String, Number],
+        default: '',
+      },
     },
-    name: {
-      type: String,
-      required: true,
+    emits: ['update:modelValue'],
+    mounted() {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      this.id = this.componentId;
     },
-    type: {
-      type: String as PropType<'text' | 'password' | 'email' | 'date'>,
-      default: 'text',
+    methods: {
+      updateInput(e: Event) {
+        if (e.target) {
+          this.$emit('update:modelValue', (e.target as HTMLInputElement).value);
+        }
+      },
     },
-    modelValue: {
-      type: [String, Number],
-      default: '',
+    data() {
+      return {
+        id: '',
+      };
     },
-  },
-  emits: ['update:modelValue'],
-  data() {
-    return {
-      id: '',
-    };
-  },
-  mounted() {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    this.id = this.componentId;
-  },
-  methods: {
-    updateInput(e: Event) {
-      if (e.target) {
-        this.$emit('update:modelValue', (e.target as HTMLInputElement).value);
-      }
-    },
-  },
-});
+  });
 </script>
 
-<style lang="sass" scoped>
+<style lang="scss">
+.label {
+  display: none;
+}
 
-.label
-  display: none
+.input {
+  font-family: 'Inter';
+  font-size: 18px;
 
-.input
-  padding: 10px 20px
-  box-sizing: border-box
-  width: 100%
-  height: 56px
-  border-radius: 18px
-  border: 1px solid rgba(0, 0, 0, 0.1)
-  outline: none
-  font-size: 18px
-  font-family: 'Inter'
+  box-sizing: border-box;
 
+  width: 100%;
+  height: 56px;
+  padding: 10px 20px;
+
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 18px;
+  outline: none;
+}
 </style>

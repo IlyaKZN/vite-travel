@@ -1,45 +1,45 @@
 <template>
   <form
-  class="form"
-  @submit.prevent="submitForm">
+  @submit.prevent="submitForm"
+  class="form">
     <h1 class="title">
-      Создайте учетную<br/> запись в <span class="span">We</span>Travel!
+      Создайте учетную<br> запись в <span class="span">We</span>Travel!
     </h1>
     <div class="inputs-field">
       <BaseInput
       v-model="username"
-      placeholder="Имя пользователя"
       name="username"
+      placeholder="Имя пользователя"
       type="text"/>
 
       <BaseInput
       v-model="email"
-      placeholder="Электронная почта"
       name="email"
+      placeholder="Электронная почта"
       type="email"/>
 
       <BaseInput
       v-model="password"
-      placeholder="Пароль"
       name="password"
+      placeholder="Пароль"
       type="password"/>
 
       <BaseInput
       v-model="repeatedPassword"
-      placeholder="Подтвердите пароль"
       name="repeatedPassword"
+      placeholder="Подтвердите пароль"
       type="password"/>
 
       <BaseInput
       v-model="birthDate"
-      placeholder="Дата рождения"
       name="test"
+      placeholder="Дата рождения"
       type="date"/>
 
       <BaseInput
       v-model="phoneNumber"
-      placeholder="Номер телефона"
       name="test"
+      placeholder="Номер телефона"
       type="text"/>
     </div>
 
@@ -53,8 +53,8 @@
       </p>
 
       <RouterLink
-      to="/signin"
-      class="link">
+      class="link"
+      to="/signin">
         Войти
       </RouterLink>
     </div>
@@ -66,14 +66,14 @@
       что ознакомился с положениями, указанными в статьях
 
       <RouterLink
-      to="/"
-      class="terms-link">
+      class="terms-link"
+      to="/">
         Лицензионным соглашением
       </RouterLink> и
 
       <RouterLink
-      to="/"
-      class="terms-link">
+      class="terms-link"
+      to="/">
         Политикой конфиденциальности
       </RouterLink>.
     </p>
@@ -81,102 +81,109 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import BaseInput from '../ui-kit/Input.vue';
-import BaseButton from '../ui-kit/Button.vue';
-import AlternativeAuth from './AlternativeAuth.vue';
+  import { defineComponent } from 'vue';
+  import BaseInput from '../ui-kit/Input.vue';
+  import BaseButton from '../ui-kit/Button.vue';
+  import AlternativeAuth from './AlternativeAuth.vue';
 
-export default defineComponent({
-  name: 'SignUpForm',
-  components: {
-    BaseInput,
-    BaseButton,
-    AlternativeAuth,
-  },
-  data() {
-    return {
-      username: '',
-      email: '',
-      password: '',
-      repeatedPassword: '',
-      birthDate: '',
-      phoneNumber: '',
-    };
-  },
-  methods: {
-    submitForm() {
-      console.log('submit');
+  export default defineComponent({
+    name: 'SignUpForm',
+    components: {
+      BaseInput,
+      BaseButton,
+      AlternativeAuth,
     },
-  },
-});
+    methods: {
+      submitForm() {
+        console.log('submit');
+      },
+    },
+    data() {
+      return {
+        username: '',
+        email: '',
+        password: '',
+        repeatedPassword: '',
+        birthDate: '',
+        phoneNumber: '',
+      };
+    },
+  });
 </script>
 
 <style lang="scss">
-  @import '@/styles/variables.scss';
+  @import '@/styles/variables';
 
   .form {
     box-sizing: border-box;
-    padding: 50px 52px 70px;
-    background-color: white;
-    max-width: 500px;
-    width: 100%;
-    border-radius: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    width: 100%;
+    max-width: 500px;
+    padding: 50px 52px 70px;
+
+    background-color: #fff;
+    border-radius: 40px;
   }
-    
 
   .title {
-    margin: 0 0 67px;
     font-size: 32px;
-    line-height: 38px;
     font-weight: 600;
+    line-height: 38px;
+
+    margin: 0 0 67px;
   }
 
   .span {
-    color: #F0953D;
+    color: #f0953d;
     font-style: italic;
     font-weight: 400;
   }
 
   .inputs-field {
-    margin-bottom: 25px;
-    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 10px;
+
+    width: 100%;
+    margin-bottom: 25px;
   }
 
   .description {
     font-size: 15px;
     line-height: 18px;
     font-weight: 300;
+
     margin: 0;
   }
 
   .description-container {
-    margin: 20px 0;
     display: flex;
+    gap: 3px;
     align-items: center;
     justify-content: center;
-    gap: 3px;
+
+    margin: 20px 0;
   }
 
   .link {
-    margin-left: 2px;
-    text-decoration: none;
-    color: $secondaryColor;
     font-size: 15px;
-    line-height: 18px;
     font-weight: 700;
+    line-height: 18px;
+    color: $secondaryColor;
+    text-decoration: none;
+
+    margin-left: 2px;
   }
 
   .agreement {
-    margin: 34px 0 0 0;
     font-size: 9px;
     line-height: 11px;
     text-align: center;
+
+    margin: 34px 0 0;
   }
 
   .terms-link {

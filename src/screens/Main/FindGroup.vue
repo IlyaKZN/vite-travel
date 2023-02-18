@@ -5,40 +5,40 @@
     </h1>
 
     <p class="find-group__description">
-      легкий способ путешествовать и<br/>
+      легкий способ путешествовать и<br>
       заводить новые знакомства
     </p>
 
     <form class="find-group__form">
       <label
-      for="#starting-point-input"
-      class="find-group__input-label">Откуда</label>
-  
+      class="find-group__input-label"
+      for="#starting-point-input">Откуда</label>
+
       <input
-      id="#starting-point-input"
       class="find-group__input"
       placeholder="Откуда"
-      type="text"/>
+      type="text"
+      id="#starting-point-input">
 
       <label
-      for="#finishing-point-input"
-      class="find-group__input-label">Куда</label>
+      class="find-group__input-label"
+      for="#finishing-point-input">Куда</label>
 
       <input
-      id="#finishing-point-input"
       class="find-group__input"
       placeholder="Куда"
-      type="text"/>
+      type="text"
+      id="#finishing-point-input">
 
       <label
-      for="#date-input"
-      class="find-group__input-label">Когда</label>
+      class="find-group__input-label"
+      for="#date-input">Когда</label>
 
       <input
-      id="#date-input"
       class="find-group__input"
       placeholder="Когда"
-      type="text"/>
+      type="text"
+      id="#date-input">
 
       <button
       class="find-group__button"
@@ -56,33 +56,36 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+  import { defineComponent } from 'vue';
 
-export default defineComponent({
-  name: 'FindGroupWidget',
-});
+  export default defineComponent({
+    name: 'FindGroupWidget',
+  });
 </script>
 
 <style lang="scss">
   @import '@/styles/variables.scss';
 
   .find-group {
-    height: calc( 100vh - 80px );
-    background-image: url('@/assets/MainPageGradient.svg');
-    background-size: cover;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    height: calc(100vh - 80px);
+
+    background-image: url('@/assets/MainPageGradient.svg');
+    background-size: cover;
   }
 
   .find-group__title {
-    margin: 0 0 20px;
+    font-size: 55px;
+    font-weight: 700;
+    line-height: 68px;
     color: white;
     text-transform: uppercase;
-    font-weight: 700;
-    font-size: 55px;
-    line-height: 68px;
+
+    margin: 0 0 20px;
   }
 
   .find-group__description {
@@ -91,19 +94,23 @@ export default defineComponent({
     line-height: 24px;
     font-weight: 400;
     text-align: center;
+
     margin-bottom: 80px;
   }
 
   .find-group__form {
-    min-height: 187px;
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 0 14px;
-    border-radius: 35px;
+    font-family: Inter, sans-serif;
+
     display: flex;
+    gap: 3px;
     align-items: center;
     justify-content: center;
-    gap: 3px;
-    font-family: Inter, sans-serif;
+
+    min-height: 187px;
+    padding: 0 14px;
+
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 35px;
   }
 
   .find-group__input-label {
@@ -111,46 +118,53 @@ export default defineComponent({
   }
 
   .find-group__input {
-    padding: 20px 0 20px 15px;
-    box-sizing: border-box;
-    width: 300px;
+    font-family: Inter, sans-serif;
     font-size: 18px;
     line-height: 22px;
     color: green;
+
+    box-sizing: border-box;
+
+    width: 300px;
+    padding: 20px 0 20px 15px;
+
     border: none;
     outline: none;
-    font-family: Inter, sans-serif;
 
     &:first-of-type {
-      border-radius: 20px 0px 0px 20px;
+      border-radius: 20px 0 0 20px;
     }
 
     &:last-of-type {
-      border-radius: 0px 20px 20px 0px;
+      border-radius: 0 20px 20px 0;
     }
   }
 
   .find-group__button {
-    margin-left: 20px;
-    background-color: $primaryColor;
-    color: white;
-    font-weight: 800;
+    font-family: Inter, sans-serif;
     font-size: 20px;
+    font-weight: 800;
     line-height: 24px;
+    color: white;
+    letter-spacing: 0.8px;
+
     padding: 20px 35px;
+    margin-left: 20px;
+
+    cursor: pointer;
+
+    background-color: $primaryColor;
     border: none;
     border-radius: 20px;
-    cursor: pointer;
-    font-family: Inter, sans-serif;
-    letter-spacing: 0.8px;
     outline: none;
   }
 
   .find-group__reference-link {
-    margin-top: 23px;
-    color: white;
-    font-weight: 400;
     font-size: 18px;
+    font-weight: 400;
     line-height: 22px;
+    color: white;
+
+    margin-top: 23px;
   }
 </style>
