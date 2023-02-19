@@ -3,11 +3,12 @@
 
   <router-view/>
 
-  <TheFooter/>
+  <TheFooter v-if="showFooter"/>
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue';
+  import { defineComponent, computed } from 'vue';
+  import { useRoute } from 'vue-router';
   import TheHeader from './components/TheHeader.vue';
   import TheFooter from './components/TheFooter.vue';
 
@@ -16,6 +17,20 @@
     components: {
       TheHeader,
       TheFooter,
+    },
+    setup() {
+      const route = useRoute();
+
+      const showFooter = computed(() => {
+        if (['main'].includes(route.name as string)) {
+          return true;
+        }
+        return false;
+      });
+
+      return {
+        showFooter,
+      };
     },
   });
 
@@ -29,5 +44,4 @@
 
     margin: 0;
   }
-
 </style>

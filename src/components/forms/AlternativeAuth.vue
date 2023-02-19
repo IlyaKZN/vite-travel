@@ -1,19 +1,21 @@
 <template>
-  <div class="container">
-    <p class="transition-text">
+  <div class="alternative-auth">
+    <p class="alternative-auth__transition-text">
       или
     </p>
+
     <a
     aria-label="link to vk authorization"
-    class="link-vk"
+    class="alternative-auth__link-vk"
     href="/"/>
+
     <a
     aria-label="link to google authorization"
-    class="link-google"
+    class="alternative-auth__link-google"
     href="/">
       <img
       alt="Логотип Google"
-      class="google-logo"
+      class="alternative-auth__google-logo"
       :src="googleLogo">
       Продолжить с Google
     </a>
@@ -35,7 +37,11 @@
 </script>
 
 <style lang="scss">
-  .container {
+  .alternative-auth {
+    width: 100%;
+  }
+
+  .alternative-auth__container {
     line-height: 0;
 
     display: flex;
@@ -47,7 +53,7 @@
     height: 29px;
   }
 
-  .transition-text {
+  .alternative-auth__transition-text {
     font-size: 15px;
     line-height: 18px;
     text-transform: uppercase;
@@ -86,16 +92,20 @@
     outline: none;
   }
 
-  .link-vk {
+  .alternative-auth__link-vk {
     @extend %link;
+    display: inline-block;
+
+    width: 100%;
+
     background-color: #376fff;
     background-image: url('../../assets/vk-logo-white.png');
-    background-size: 40px;
     background-repeat: no-repeat;
     background-position: center;
+    background-size: 40px;
   }
 
-  .link-google {
+  .alternative-auth__link-google {
     @extend %link;
     font-family: 'Inter';
     font-size: 15px;
@@ -111,7 +121,7 @@
     background-color: #fff;
   }
 
-  .google-logo {
+  .alternative-auth__google-logo {
     height: 29px;
   }
 </style>

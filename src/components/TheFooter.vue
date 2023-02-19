@@ -1,40 +1,45 @@
 <template>
   <footer class="footer">
-    <div class="social-networks-links-container">
+    <div class="footer__links-container">
       <a
       aria-label="link to vk.com"
-      class="social-network-link"
+      class="footer__link"
       href="https://vk.com"
       :style="{ backgroundImage: `url(${vkLogo})` }"/>
+
       <a
       aria-label="link to web.telegram.org"
-      class="social-network-link"
+      class="footer__link"
       href="https://web.telegram.org/"
       :style="{ backgroundImage: `url(${tgLogo})` }"/>
     </div>
-    <div class="info-container">
+
+    <div class="footer__info-container">
       <RouterLink
-      class="info-link"
+      class="footer__info-link"
       to="/">
         о нас
       </RouterLink>
+
       <RouterLink
-      class="info-link"
+      class="footer__info-link"
       to="/">
         конфеденциальность
       </RouterLink>
+
       <RouterLink
-      class="info-link"
+      class="footer__info-link"
       to="/">
         поддержка
       </RouterLink>
+
       <RouterLink
-      class="info-link"
+      class="footer__info-link"
       to="/">
         правила
       </RouterLink>
     </div>
-    <p class="signature">
+    <p class="footer__signature">
       © 2022 WeTravel — путешествуем вместе
     </p>
   </footer>
@@ -65,17 +70,16 @@
 
     width: 100%;
     padding-top: 70px;
-    margin-bottom: 80px;
   }
 
-  .social-networks-links-container {
+  .footer__links-container {
     display: flex;
     gap: 55px;
 
     margin-bottom: 46px;
   }
 
-  .social-network-link {
+  .footer__link {
     display: block;
 
     height: 55px;
@@ -85,14 +89,14 @@
     background-position: center;
   }
 
-  .info-container {
+  .footer__info-container {
     display: flex;
     gap: 70px;
 
     margin-bottom: 42px;
   }
 
-  .info-link {
+  .footer__info-link {
     text-decoration: none;
     color: #000;
     font-size: 18px;
@@ -100,7 +104,7 @@
     font-weight: 400;
   }
 
-  .signature {
+  .footer__signature {
     font-weight: 300;
     font-size: 10px;
     line-height: 12px;

@@ -1,8 +1,8 @@
-import { TCurrentUser } from '@/types/entities';
+import { TUser } from '@/types/entities';
 import { defineStore } from 'pinia';
 
 type TUserState = {
-  currentUser: TCurrentUser | null;
+  currentUser: TUser | null;
 };
 
 const useUserStore = defineStore('user', {

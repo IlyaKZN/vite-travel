@@ -1,59 +1,69 @@
 <template>
   <form
-  @submit.prevent="submitForm"
+  @submit.prevent="signIn"
   class="form">
-    <h1 class="title">
-      Добро пожаловать<br>в <span class="span">We</span>Travel
+    <h1 class="form__title">
+      Добро пожаловать<br>в <span class="form__span">We</span>Travel
     </h1>
-    <div class="inputs-field">
+
+    <div class="form__inputs-area">
       <BaseInput
       v-model="email"
       name="email"
-      placeholder="Электронная почта/ Номер телефона"
-      type="email"/>
+      placeholder="Электронная почта/ Номер телефона"/>
+
       <BaseInput
       v-model="password"
       name="password"
       placeholder="Пароль"
       type="password"/>
     </div>
-    <div class="checkbox-container">
+
+    <div class="form__checkbox-container">
       <input
-      class="checkbox"
+      class="form__checkbox"
       name="remember"
       type="checkbox"
       id="remember">
+
       <label for="remember">Запомнить меня</label>
+
       <RouterLink
-      class="forgot-password-link"
-      to="/">
+      class="form__forgot-password-link"
+      :to="{ name: 'main' }">
         Забыли пароль?
       </RouterLink>
     </div>
+
     <BaseButton type="submit">
       Продолжить
     </BaseButton>
-    <div class="description-container">
-      <p class="description">
+
+    <div class="form__description-container">
+      <p class="form__description">
         Новый пользователь?
       </p>
+
       <RouterLink
-      class="signup-link"
-      to="/signin">
+      class="form__link form__link--signin"
+      :to="{ name: 'signIn' }">
         Зарегистрироваться
       </RouterLink>
     </div>
+
     <AlternativeAuth/>
-    <p class="agreement">
+
+    <p class="form__agreement">
       Авторизуясь, вы соглашаетесь с
       <RouterLink
-      class="terms-link"
-      to="/">
+      class="form__terms-link"
+      :to="{ name: 'main' }">
         Лицензионным соглашением
       </RouterLink> и
+
       <RouterLink
-      class="terms-link"
-      to="/">
+      class="form__terms-link"
+      :to="{ name: 'main' }">
         Политикой конфиденциальности
       </RouterLink>.
     </p>
@@ -61,10 +71,16 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue';
+  import {
+    defineComponent, ref, watch, onMounted,
+  } from 'vue';
+  import { storeToRefs } from 'pinia';
+  import { useRouter } from 'vue-router';
   import BaseInput from '../ui-kit/Input.vue';
   import BaseButton from '../ui-kit/Button.vue';
   import AlternativeAuth from './AlternativeAuth.vue';
+  import useAuthApi from '@/core/hooks/useAuthApi';
+  import useUserStore from '@/store/useUserStore';
 
   export default defineComponent({
     name: 'SignInForm',
@@ -73,157 +89,52 @@
       BaseButton,
       AlternativeAuth,
     },
-    methods: {
-      submitForm() {
-        console.log('Форма отправлена');
-      },
-    },
-    data() {
+    setup() {
+      const email = ref('');
+      const password = ref('');
+
+      const authApi = useAuthApi();
+      const router = useRouter();
+
+      const userStore = useUserStore();
+      const { currentUser } = storeToRefs(userStore);
+
+      function redirect() {
+        router.push({ name: 'main' }).catch(console.error);
+      }
+
+      onMounted(() => {
+        if (currentUser.value) redirect();
+      });
+
+      watch(currentUser, () => {
+        if (currentUser.value) redirect();
+      });
+
+      async function signIn() {
+        const response = await authApi.signIn({
+          email: email.value,
+          password: password.value,
+        });
+
+        if (!response) return;
+
+        const { accessToken, user } = response;
+
+        localStorage.setItem('accessToken', accessToken);
+
+        userStore.$patch({ currentUser: user });
+      }
+
       return {
-        name: '',
-        email: '',
-        password: '',
-        repeatedPassword: '',
-        birthDate: '',
-        phoneNumber: '',
+        email,
+        password,
+        signIn,
       };
     },
   });
 </script>
 
-<style lang="scss">
-  @import '@/styles/variables';
-
-  .form {
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    width: 100%;
-    max-width: 500px;
-    padding: 50px 52px 70px;
-
-    background-color: #fff;
-    border-radius: 40px;
-  }
-
-  .title {
-    font-size: 32px;
-    font-weight: 600;
-    line-height: 38px;
-    text-align: center;
-
-    margin: 0 0 67px;
-  }
-
-  .span {
-    color: #f0953d;
-    font-style: italic;
-    font-weight: 400;
-  }
-
-  .inputs-field {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    width: 100%;
-    margin-bottom: 25px;
-  }
-
-  .description {
-    font-size: 15px;
-    line-height: 18px;
-    font-weight: 300;
-
-    margin: 0;
-  }
-
-  .description-container {
-    display: flex;
-    gap: 3px;
-    align-items: center;
-    justify-content: center;
-
-    margin: 20px 0;
-  }
-
-  %link {
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 18px;
-    text-decoration: none;
-
-    margin-left: 2px;
-  }
-
-  .signup-link {
-    @extend %link;
-    color: $secondaryColor;
-  }
-
-  .forgot-password-link {
-    @extend %link;
-    color: $primaryColor;
-  }
-
-  .agreement {
-    font-size: 9px;
-    line-height: 11px;
-    text-align: center;
-
-    margin: 25px 0 0;
-  }
-
-  .terms-link {
-    color: $secondaryColor;
-    text-decoration: none;
-    font-weight: 600;
-  }
-
-  .checkbox {
-    position: absolute;
-    z-index: -1;
-
-    opacity: 0;
-  }
-
-  .checkbox+label {
-    font-size: 15px;
-    line-height: 18px;
-
-    display: inline-flex;
-    align-items: center;
-
-    user-select: none;
-  }
-
-  .checkbox+label::before {
-    display: inline-block;
-    flex-grow: 0;
-    flex-shrink: 0;
-
-    width: 1em;
-    height: 1em;
-    margin-right: 0.5em;
-
-    cursor: pointer;
-    content: '';
-
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 0.25em;
-  }
-
-  .checkbox:checked+label::before {
-    background-color: $primaryColor;
-  }
-
-  .checkbox-container {
-    display: flex;
-    justify-content: space-between;
-
-    width: 100%;
-    margin-bottom: 24px;
-  }
+<style>
+  @import './index.scss';
 </style>

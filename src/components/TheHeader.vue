@@ -3,25 +3,58 @@
     <div class="header__content">
       <RouterLink
       class="logo"
-      to="/"/>
+      :to="{ name: 'main' }"/>
+
       <nav class="header__navigation">
         <ul class="header__navigation-list">
-          <li class="header__navigation-item">
+          <li
+          v-if="!currentUser"
+          class="header__navigation-item">
             <RouterLink
             class="header__signin-link"
-            to="/signin">
+            :to="{ name: 'signIn' }">
               Вход
             </RouterLink>
           </li>
-          <li class="header__navigation-item">
+
+          <li
+          v-if="!currentUser"
+          class="header__navigation-item">
             <RouterLink
             class="header__signup-link"
-            to="/signup">
+            :to="{ name: 'signUp' }">
               Регистрация
             </RouterLink>
           </li>
+
+          <div
+          v-else
+          class="header__profile-preview">
+            <span
+            @click="isShowProfilePopup = !isShowProfilePopup"
+            class="header__username">
+              {{ currentUser.username }}
+            </span>
+
+            <div
+            v-if="isShowProfilePopup"
+            class="header__profile-popup">
+              <RouterLink
+              class="header__exit"
+              :to="{ name: 'profile' }">
+                Профиль
+              </RouterLink>
+
+              <span
+              @click="logout"
+              class="header__exit">
+                Выйти
+              </span>
+            </div>
+          </div>
         </ul>
       </nav>
+
       <button class="header__lang-button">
         ru
       </button>
@@ -30,10 +63,28 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue';
+  import { defineComponent, ref } from 'vue';
+  import { storeToRefs } from 'pinia';
+  import useUserStore from '@/store/useUserStore';
 
   export default defineComponent({
     name: 'TheHeader',
+    setup() {
+      const isShowProfilePopup = ref(false);
+
+      const userStore = useUserStore();
+      const { currentUser } = storeToRefs(userStore);
+
+      function logout() {
+        userStore.$reset();
+      }
+
+      return {
+        currentUser,
+        isShowProfilePopup,
+        logout,
+      };
+    },
   });
 </script>
 
@@ -67,6 +118,45 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
+  }
+
+  .header__username {
+    font-size: 20px;
+    color: #fff;
+
+    cursor: pointer;
+  }
+
+  .header__profile-preview {
+    position: relative;
+  }
+
+  .header__profile-popup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    margin-top: 8px;
+
+    position: absolute;
+    left: 0;
+
+    background-color: #5b93f3;
+  }
+
+  .header__exit {
+
+    color: #000;
+    text-decoration: none;
+
+    display: inline-block;
+
+    width: 100%;
+    padding: 4px;
+
+    cursor: pointer;
+
+    background-color: #a2c0f3;
   }
 
   .header__signin-link {

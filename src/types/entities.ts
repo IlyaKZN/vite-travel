@@ -1,13 +1,11 @@
-export interface TCurrentUser {
+export interface TUser {
+  email: string;
+  password: string;
+  phoneNumber: string;
+  username: string;
+  avatar?: string;
   firstName?: string;
   lastName?: string;
-  username: string;
-  email: string;
-  gender?: 'male' | 'female';
-  age?: number;
-  phoneNumber: number;
-  password: string;
-  birthDay: string;
-  about?: string;
-  id: string;
+  birthDate?: string;
+  friends?: string;
 }

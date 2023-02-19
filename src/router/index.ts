@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import MainScreen from '../screens/Main/index.vue';
-import SignUpView from '../screens/SignUp/index.vue';
-import SignInView from '../screens/SignIn/index.vue';
+import SignUpScreen from '../screens/SignUp/index.vue';
+import SignInScreen from '../screens/SignIn/index.vue';
+import ProfileScreen from '../screens/Profile/index.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -12,12 +13,17 @@ const routes: Array<RouteRecordRaw> = [
   {
     name: 'signUp',
     path: '/signup',
-    component: SignUpView,
+    component: SignUpScreen,
   },
   {
     name: 'signIn',
     path: '/signin',
-    component: SignInView,
+    component: SignInScreen,
+  },
+  {
+    name: 'profile',
+    path: '/profile',
+    component: ProfileScreen,
   },
 ];
 

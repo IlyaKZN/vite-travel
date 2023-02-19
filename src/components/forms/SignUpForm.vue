@@ -1,11 +1,12 @@
 <template>
   <form
-  @submit.prevent="submitForm"
+  @submit.prevent="signUp"
   class="form">
-    <h1 class="title">
-      Создайте учетную<br> запись в <span class="span">We</span>Travel!
+    <h1 class="form__title">
+      Создайте учетную<br> запись в <span class="form__span">We</span>Travel!
     </h1>
-    <div class="inputs-field">
+
+    <div class="form__inputs-area">
       <BaseInput
       v-model="username"
       name="username"
@@ -47,13 +48,13 @@
       Продолжить
     </BaseButton>
 
-    <div class="description-container">
-      <p class="description">
+    <div class="form__description-container">
+      <p class="form__description">
         У вас уже есть учетная запись?
       </p>
 
       <RouterLink
-      class="link"
+      class="form__link"
       to="/signin">
         Войти
       </RouterLink>
@@ -61,18 +62,18 @@
 
     <AlternativeAuth/>
 
-    <p class="agreement">
+    <p class="form__agreement">
       Нажимая «Создать учетную запись», я подтверждаю,
       что ознакомился с положениями, указанными в статьях
 
       <RouterLink
-      class="terms-link"
+      class="form__terms-link"
       to="/">
         Лицензионным соглашением
       </RouterLink> и
 
       <RouterLink
-      class="terms-link"
+      class="form__terms-link"
       to="/">
         Политикой конфиденциальности
       </RouterLink>.
@@ -81,10 +82,12 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue';
+  import { defineComponent, ref } from 'vue';
   import BaseInput from '../ui-kit/Input.vue';
   import BaseButton from '../ui-kit/Button.vue';
   import AlternativeAuth from './AlternativeAuth.vue';
+  import useAuthApi from '@/core/hooks/useAuthApi';
+  import useUserStore from '@/store/useUserStore';
 
   export default defineComponent({
     name: 'SignUpForm',
@@ -93,102 +96,44 @@
       BaseButton,
       AlternativeAuth,
     },
-    methods: {
-      submitForm() {
-        console.log('submit');
-      },
-    },
-    data() {
+    setup() {
+      const username = ref('');
+      const email = ref('');
+      const password = ref('');
+      const repeatedPassword = ref('');
+      const birthDate = ref<string>('');
+      const phoneNumber = ref('');
+
+      const authApi = useAuthApi();
+      const userStore = useUserStore();
+
+      async function signUp() {
+        if (!birthDate.value) return;
+
+        const user = await authApi.signUp({
+          username: username.value,
+          email: email.value,
+          password: password.value,
+          birthDate: new Date(birthDate.value),
+          phoneNumber: phoneNumber.value,
+        });
+
+        userStore.$patch({ currentUser: user });
+      }
+
       return {
-        username: '',
-        email: '',
-        password: '',
-        repeatedPassword: '',
-        birthDate: '',
-        phoneNumber: '',
+        username,
+        email,
+        password,
+        repeatedPassword,
+        birthDate,
+        phoneNumber,
+        signUp,
       };
     },
   });
 </script>
 
-<style lang="scss">
-  @import '@/styles/variables';
-
-  .form {
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    width: 100%;
-    max-width: 500px;
-    padding: 50px 52px 70px;
-
-    background-color: #fff;
-    border-radius: 40px;
-  }
-
-  .title {
-    font-size: 32px;
-    font-weight: 600;
-    line-height: 38px;
-
-    margin: 0 0 67px;
-  }
-
-  .span {
-    color: #f0953d;
-    font-style: italic;
-    font-weight: 400;
-  }
-
-  .inputs-field {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    width: 100%;
-    margin-bottom: 25px;
-  }
-
-  .description {
-    font-size: 15px;
-    line-height: 18px;
-    font-weight: 300;
-
-    margin: 0;
-  }
-
-  .description-container {
-    display: flex;
-    gap: 3px;
-    align-items: center;
-    justify-content: center;
-
-    margin: 20px 0;
-  }
-
-  .link {
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 18px;
-    color: $secondaryColor;
-    text-decoration: none;
-
-    margin-left: 2px;
-  }
-
-  .agreement {
-    font-size: 9px;
-    line-height: 11px;
-    text-align: center;
-
-    margin: 34px 0 0;
-  }
-
-  .terms-link {
-    color: $secondaryColor;
-    text-decoration: none;
-    font-weight: 600;
-  }
+<style>
+  @import './index.scss';
 </style>

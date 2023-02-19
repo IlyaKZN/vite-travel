@@ -1,0 +1,136 @@
+@import '@/styles/variables.scss';
+
+.test {
+    
+}
+
+.form {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+    max-width: 500px;
+    padding: 50px 52px 70px;
+
+    background-color: #fff;
+    border-radius: 40px;
+}
+
+.form__span {
+    color: #f0953d;
+    font-style: italic;
+    font-weight: 400;
+}
+
+.form__title {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 38px;
+    text-align: center;
+
+    margin: 0 0 67px;
+}
+
+.form__inputs-area {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.form__description {
+    font-size: 15px;
+    line-height: 18px;
+    font-weight: 300;
+
+    margin: 0;
+}
+
+.form__description-container {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+    justify-content: center;
+
+    margin: 20px 0;
+}
+
+.form__link {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 18px;
+    text-decoration: none;
+
+    margin-left: 2px;
+}
+
+.form__link--signup {
+    color: $secondaryColor;
+}
+
+.form__link--signin {
+    color: $primaryColor;
+}
+
+.form__agreement {
+    font-size: 9px;
+    line-height: 11px;
+    text-align: center;
+
+    margin: 25px 0 0;
+}
+
+.form__terms-link {
+    color: $secondaryColor;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.form__checkbox {
+    position: absolute;
+    z-index: -1;
+
+    opacity: 0;
+}
+
+.form__checkbox+label {
+    font-size: 15px;
+    line-height: 18px;
+
+    display: inline-flex;
+    align-items: center;
+
+    user-select: none;
+}
+
+.form__checkbox+label::before {
+    display: inline-block;
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    width: 1em;
+    height: 1em;
+    margin-right: 0.5em;
+
+    cursor: pointer;
+    content: '';
+
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0.25em;
+}
+
+.form__checkbox:checked+label::before {
+    background-color: $primaryColor;
+}
+
+.form__checkbox-container {
+    display: flex;
+    justify-content: space-between;
+
+    width: 100%;
+    margin-bottom: 24px;
+}

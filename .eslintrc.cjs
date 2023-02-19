@@ -27,6 +27,7 @@ module.exports = {
     'color-named': 0,
     'no-undef': 0,
     'arrow-body-style': 0,
+    'at-import-partial-extension-blacklist': 0,
     camelcase: 0,
     'global-require': 0,
     indent: 0,
