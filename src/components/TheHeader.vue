@@ -38,17 +38,18 @@
 
             <div
             v-if="isShowProfilePopup"
+            @click="isShowProfilePopup = false"
             class="header__profile-popup">
               <RouterLink
-              class="header__exit"
+              class="header__profile-popup-item"
               :to="{ name: 'profile' }">
-                Профиль
+                <Icon icon="account_circle"/>Профиль
               </RouterLink>
 
               <span
               @click="logout"
-              class="header__exit">
-                Выйти
+              class="header__profile-popup-item">
+                <Icon icon="logout"/>Выйти
               </span>
             </div>
           </div>
@@ -66,18 +67,20 @@
   import { defineComponent, ref } from 'vue';
   import { storeToRefs } from 'pinia';
   import useUserStore from '@/store/useUserStore';
+  import Icon from './ui-kit/Icon.vue';
+  import useLogout from '../hooks/useLogout';
 
   export default defineComponent({
     name: 'TheHeader',
+    components: {
+      Icon,
+    },
     setup() {
       const isShowProfilePopup = ref(false);
 
       const userStore = useUserStore();
       const { currentUser } = storeToRefs(userStore);
-
-      function logout() {
-        userStore.$reset();
-      }
+      const logout = useLogout();
 
       return {
         currentUser,
@@ -134,25 +137,30 @@
   .header__profile-popup {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 3px;
 
     margin-top: 8px;
+    overflow: hidden;
 
     position: absolute;
     left: 0;
 
-    background-color: #5b93f3;
+    background-color: $primaryColor;
+    border: 3px solid $primaryColor;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(#000, 0.5);
   }
 
-  .header__exit {
-
-    color: #000;
+  .header__profile-popup-item {
+    color: #fff;
     text-decoration: none;
 
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 
     width: 100%;
-    padding: 4px;
+    padding: 10px 20px;
 
     cursor: pointer;
 

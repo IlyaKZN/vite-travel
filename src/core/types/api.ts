@@ -19,3 +19,5 @@ export type TSignInResponse = {
   accessToken: string,
   user: TUser,
 };
+
+export type TGetMeResponse = TUser;

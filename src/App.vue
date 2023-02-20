@@ -7,10 +7,12 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, computed } from 'vue';
+  import { defineComponent, computed, onMounted } from 'vue';
   import { useRoute } from 'vue-router';
   import TheHeader from './components/TheHeader.vue';
   import TheFooter from './components/TheFooter.vue';
+  import useUserApi from './core/hooks/useUserApi';
+  import useUserStore from './store/useUserStore';
 
   export default defineComponent({
     name: 'App',
@@ -20,12 +22,22 @@
     },
     setup() {
       const route = useRoute();
+      const userStore = useUserStore();
+      const userApi = useUserApi();
 
       const showFooter = computed(() => {
         if (['main'].includes(route.name as string)) {
           return true;
         }
         return false;
+      });
+
+      onMounted(async () => {
+        const user = await userApi.getMe();
+
+        if (!user) return;
+
+        userStore.$patch({ currentUser: user });
       });
 
       return {
