@@ -40,11 +40,11 @@
       type="text"
       id="#date-input">
 
-      <button
+      <BaseButton
       class="find-group__button"
       type="submit">
         Найти группу
-      </button>
+      </BaseButton>
     </form>
 
     <RouterLink
@@ -57,9 +57,13 @@
 
 <script lang="ts">
   import { defineComponent } from 'vue';
+  import BaseButton from '@/components/ui-kit/Button.vue';
 
   export default defineComponent({
     name: 'FindGroupWidget',
+    components: {
+      BaseButton,
+    },
   });
 </script>
 
@@ -148,13 +152,14 @@
     color: white;
     letter-spacing: 0.8px;
 
+    width: max-content;
     padding: 20px 35px;
     margin-left: 20px;
 
     cursor: pointer;
 
     background-color: $primaryColor;
-    border: none;
+    border: 0;
     border-radius: 20px;
     outline: none;
   }
@@ -163,7 +168,7 @@
     font-size: 18px;
     font-weight: 400;
     line-height: 22px;
-    color: white;
+    color: #fff;
 
     margin-top: 23px;
   }

@@ -1,44 +1,49 @@
 <template>
-  <div class="profile-card">
-    <div class="profile-card__header-gradient">
-      <Icon
-      class="profile-card__edit-icon"
-      icon="edit"/>
+  <div class="maganer-profile-card">
+    <div class="maganer-profile-card__header-gradient">
+      <RouterLink :to="{ name: 'manager-editor' }">
+        <Icon
+        class="maganer-profile-card__edit-icon"
+        icon="edit"/>
+      </RouterLink>
     </div>
 
     <img
-    class="profile-card__avatar"
+    class="maganer-profile-card__avatar"
     src="https://klike.net/uploads/posts/2019-03/1551511801_1.jpg">
 
-    <span class="profile-card__name">{{ user.name }}</span>
+    <span class="maganer-profile-card__name">{{ currentUser?.lastName }} {{ currentUser?.firstName }}</span>
 
-    <span class="profile-card__id">id {{ user.id }}</span>
+    <span class="maganer-profile-card__id">id {{ user.id }}</span>
 
     <RouterLink
-    class="profile-card__edit-button"
-    :to="{ name: 'profile.edit' }">
-      Редактировать профиль
+    :to="{ name: 'manager-editor' }">
+      <BaseButton
+      class="maganer-profile-card__edit-button"
+      styleType="outlined">
+        Редактировать профиль
+      </BaseButton>
     </RouterLink>
 
-    <div class="profile-card__statistic">
-      <div class="profile-card__statistic-item">
-        <div class="profile-card__statistic-value">
+    <div class="maganer-profile-card__statistic">
+      <div class="maganer-profile-card__statistic-item">
+        <div class="maganer-profile-card__statistic-value">
           {{ user.rating }}/10
         </div>
 
         <div>рейтинг</div>
       </div>
 
-      <div class="profile-card__statistic-item">
-        <div class="profile-card__statistic-value">
+      <div class="maganer-profile-card__statistic-item">
+        <div class="maganer-profile-card__statistic-value">
           {{ user.subscribers }}
         </div>
 
         <div>подписчиков</div>
       </div>
 
-      <div class="profile-card__statistic-item">
-        <div class="profile-card__statistic-value">
+      <div class="maganer-profile-card__statistic-item">
+        <div class="maganer-profile-card__statistic-value">
           {{ user.subscriptions }}
         </div>
 
@@ -46,28 +51,35 @@
       </div>
     </div>
 
-    <div class="profile-card__info">
-      <span>Возраст: <span class="profile-card__info-value">{{ user.age }}</span></span>
+    <div class="maganer-profile-card__info">
+      <span>Возраст: <span class="maganer-profile-card__info-value">{{ currentUser?.birthDate }}</span></span>
 
-      <span>Город: <span class="profile-card__info-value">{{ user.city }}</span></span>
+      <span>Город: <span class="maganer-profile-card__info-value">{{ user.city }}</span></span>
 
-      <span>О себе: <span class="profile-card__info-value">{{ user.aboutMe }}</span></span>
+      <span>О себе: <span class="maganer-profile-card__info-value">{{ user.aboutMe }}</span></span>
 
-      <span>URL: <span class="profile-card__info-value">{{ user.URL }}</span></span>
+      <span>URL: <span class="maganer-profile-card__info-value">{{ user.URL }}</span></span>
     </div>
   </div>
 </template>
 
 <script lang="ts">
   import { defineComponent } from 'vue';
+  import { storeToRefs } from 'pinia';
   import Icon from '@/components/ui-kit/Icon.vue';
+  import BaseButton from '@/components/ui-kit/Button.vue';
+  import useUserStore from '@/store/useUserStore';
 
   export default defineComponent({
     name: 'ProfileCard',
     components: {
       Icon,
+      BaseButton,
     },
     setup() {
+      const userStore = useUserStore();
+      const { currentUser } = storeToRefs(userStore);
+
       const user = {
         name: 'Пичугин Илья',
         id: '4578563',
@@ -82,6 +94,7 @@
 
       return {
         user,
+        currentUser,
       };
     },
   });
@@ -90,7 +103,7 @@
 <style lang="scss">
   @use '@/styles/variables.scss' as *;
 
-  .profile-card {
+  .maganer-profile-card {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -105,7 +118,7 @@
     border-radius: 18px;
   }
 
-  .profile-card__header-gradient {
+  .maganer-profile-card__header-gradient {
     height: 210px;
     width: 100%;
 
@@ -116,7 +129,7 @@
     background: linear-gradient(180deg, #6baefc 3.45%, #921bef 101.71%);
   }
 
-  .profile-card__edit-icon {
+  .maganer-profile-card__edit-icon {
     color: #fff;
     font-size: 26px;
 
@@ -127,7 +140,7 @@
     cursor: pointer;
   }
 
-  .profile-card__avatar {
+  .maganer-profile-card__avatar {
     width: 229px;
     height: 229px;
     padding: 16px;
@@ -140,7 +153,7 @@
     object-fit: cover;
   }
 
-  .profile-card__name {
+  .maganer-profile-card__name {
     font-size: 30px;
     font-weight: 500;
     line-height: 37px;
@@ -148,7 +161,7 @@
     margin-bottom: 11px;
   }
 
-  .profile-card__id {
+  .maganer-profile-card__id {
     font-size: 16px;
     line-height: 20px;
     color: rgba(#000, 0.6);
@@ -156,24 +169,15 @@
     margin-bottom: 26px;
   }
 
-  .profile-card__edit-button {
+  .maganer-profile-card__edit-button {
     font-size: 16px;
     font-weight: 700;
     line-height: 20px;
-    color: $primaryColor;
-    text-decoration: none;
 
     margin-bottom: 35px;
-    padding: 15px 40px;
-
-    cursor: pointer;
-
-    background-color: transparent;
-    border: 1px solid $primaryColor;
-    border-radius: 18px;
   }
 
-  .profile-card__statistic {
+  .maganer-profile-card__statistic {
     font-size: 13px;
     line-height: 16px;
     color: $primaryColor;
@@ -185,14 +189,14 @@
     margin-bottom: 46px;
   }
 
-  .profile-card__statistic-value {
+  .maganer-profile-card__statistic-value {
     font-size: 28px;
     font-weight: 600;
     line-height: 34px;
     color: #000;
   }
 
-  .profile-card__info {
+  .maganer-profile-card__info {
     font-size: 15px;
     line-height: 18px;
     color: rgba(#000, 0.5);
@@ -203,7 +207,7 @@
     align-self: flex-start;
   }
 
-  .profile-card__info-value {
+  .maganer-profile-card__info-value {
     font-size: 15px;
     line-height: 18px;
     color: #000;

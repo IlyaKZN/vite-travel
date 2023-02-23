@@ -8,4 +8,7 @@ export interface TUser {
   lastName?: string;
   birthDate?: string;
   friends?: string;
+  country: string;
+  city: string;
+  status: string;
 }

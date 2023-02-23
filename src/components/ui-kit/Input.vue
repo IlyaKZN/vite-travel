@@ -1,18 +1,21 @@
 <template>
-  <label
-  class="label"
-  :for="id">
-    {{ placeholder }}
-  </label>
+  <div class="base-input">
+    <label
+    class="base-input__label"
+    :class="{'base-input__label--hidden': !modelValue}"
+    :for="id">
+      {{ placeholder }}
+    </label>
 
-  <input
-  @input="updateInput"
-  class="input"
-  :name="name"
-  :placeholder="placeholder"
-  :type="type"
-  :value="modelValue"
-  :id="id">
+    <input
+    @input="updateInput"
+    class="input"
+    :name="name"
+    :placeholder="placeholder"
+    :type="type"
+    :value="modelValue"
+    :id="id">
+  </div>
 </template>
 
 <script lang="ts">
@@ -60,22 +63,26 @@
 </script>
 
 <style lang="scss">
-.label {
-  display: none;
-}
+  .base-input {
+    width: 100%;
+  }
 
-.input {
-  font-family: 'Inter';
-  font-size: 18px;
+  .base-input__label--hidden {
+    opacity: 0;
+  }
 
-  box-sizing: border-box;
+  .input {
+    font-family: 'Inter';
+    font-size: 18px;
 
-  width: 100%;
-  height: 56px;
-  padding: 10px 20px;
+    box-sizing: border-box;
 
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 18px;
-  outline: none;
-}
+    width: 100%;
+    height: 56px;
+    padding: 10px 20px;
+
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 18px;
+    outline: none;
+  }
 </style>

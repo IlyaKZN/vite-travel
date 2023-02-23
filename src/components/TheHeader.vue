@@ -42,7 +42,7 @@
             class="header__profile-popup">
               <RouterLink
               class="header__profile-popup-item"
-              :to="{ name: 'profile' }">
+              :to="{ name: 'manager-profile' }">
                 <Icon icon="account_circle"/>Профиль
               </RouterLink>
 

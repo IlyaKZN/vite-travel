@@ -21,3 +21,17 @@ export type TSignInResponse = {
 };
 
 export type TGetMeResponse = TUser;
+
+export type TUpdateUserRequest = Partial<{
+  email: string;
+  password: string;
+  phoneNumber: string;
+  avatar: string;
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  friends: string;
+  country: string;
+  city: string;
+  status: string;
+}>;

@@ -1,26 +1,29 @@
 <template>
-  <section class="profile-screen">
-    <div class="profile-screen__content">
-      <div class="profile-screen__menu">
-        <ul class="profile-screen__menu-list">
+  <section class="manager-screen">
+    <div class="manager-screen__content">
+      <div class="manager-screen__menu">
+        <ul class="manager-screen__menu-list">
           <li
           v-for="item in menuListData"
           @click="item.callback"
-          class="profile-screen__menu-item"
-          :class="{ 'profile-screen__menu-item--active': item.routeName === route.name }"
           :key="item.text">
-            <Icon
-            class="profile-screen__icon"
-            :icon="item.icon"/>
+            <RouterLink
+            class="manager-screen__menu-link"
+            :class="{ 'manager-screen__menu-link--active': item.routeNames?.includes(route.name as string) }"
+            :to="{ name: item.routeNames ? item.routeNames[0] : '' }">
+              <Icon
+              class="manager-screen__icon"
+              :icon="item.icon"/>
 
-            <span>
-              {{ item.text }}
-            </span>
+              <span>
+                {{ item.text }}
+              </span>
+            </RouterLink>
           </li>
         </ul>
       </div>
 
-      <ProfileCard/>
+      <router-view/>
     </div>
   </section>
 </template>
@@ -28,22 +31,20 @@
 <script lang="ts">
   import { defineComponent } from 'vue';
   import Icon from '@/components/ui-kit/Icon.vue';
-  import ProfileCard from './Card.vue';
   import useLogout from '@/hooks/useLogout';
   import { useRoute } from 'vue-router';
 
   type TMenuListData = {
     icon: string,
     text: string,
-    routeName?: string,
+    routeNames?: string[],
     callback?: () => void
   }[];
 
   export default defineComponent({
-    name: 'ProfileScreen',
+    name: 'ManagerScreen',
     components: {
       Icon,
-      ProfileCard,
     },
     setup() {
       const route = useRoute();
@@ -53,7 +54,7 @@
         {
           icon: 'account_circle',
           text: 'Профиль',
-          routeName: 'profile',
+          routeNames: ['manager-profile', 'manager-editor'],
         },
         {
           icon: 'add_circle',
@@ -89,14 +90,14 @@
 <style lang="scss">
   @use '@/styles/variables.scss' as *;
 
-  .profile-screen {
+  .manager-screen {
     width: 100%;
-    padding-top: 20px;
+    padding: 20px 0 34px;
 
     background-color: $color-screen-background;
   }
 
-  .profile-screen__content {
+  .manager-screen__content {
     display: flex;
     gap: 20px;
 
@@ -105,31 +106,33 @@
     margin: 0 auto;
   }
 
-  .profile-screen__menu {
-    width: 271px;
-    padding: 20px 24px;
+  .manager-screen__menu {
+    min-width: 271px;
     height: min-content;
+    padding: 20px 24px;
 
     background-color: #fff;
     border-radius: 18px;
     box-shadow: 0 1px 20px 0 #00000008;
-
   }
 
-  .profile-screen__menu-list {
+  .manager-screen__menu-list {
     list-style-type: none;
 
     gap: 8px;
     display: flex;
     flex-direction: column;
 
+    margin: 0;
     padding: 0;
   }
 
-  .profile-screen__menu-item {
+  .manager-screen__menu-link {
     font-size: 16px;
     font-weight: 700;
     line-height: 20px;
+    color: rgba(#000, 0.65);
+    text-decoration: none;
 
     display: flex;
     gap: 8px;
@@ -143,14 +146,21 @@
     user-select: none;
 
     border-radius: 18px;
+
+    &:hover {
+      background-color: rgba($color-app-background, 0.65);
+    }
   }
 
-  .profile-screen__menu-item--active {
+  .manager-screen__menu-link--active {
     background-color: $color-app-background;
 
+    &:hover {
+      background-color: $color-app-background;
+    }
   }
 
-  .profile-screen__icon {
-    font-size: 25px;
+  .manager-screen__icon {
+    font-size: 28px;
   }
 </style>
