@@ -20,6 +20,7 @@ module.exports = {
   ],
   root: true,
   rules: {
+    'no-underscore-dangle': 0,
     '@typescript-eslint/no-unsafe-assignment': 0,
     '@typescript-eslint/no-unsafe-member-access': 0,
     '@typescript-eslint/no-unsafe-argument': 0,

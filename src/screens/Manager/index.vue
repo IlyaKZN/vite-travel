@@ -59,10 +59,12 @@
         {
           icon: 'add_circle',
           text: 'Создать группу',
+          routeNames: ['manager-create-group'],
         },
         {
           icon: 'groups',
           text: 'Группы',
+          routeNames: ['manager-groups'],
         },
         {
           icon: 'groups',
@@ -98,11 +100,13 @@
   }
 
   .manager-screen__content {
+    box-sizing: border-box;
     display: flex;
     gap: 20px;
 
     width: 100%;
-    max-width: 1140px;
+    max-width: 1532px;
+    padding: 0 40px;
     margin: 0 auto;
   }
 

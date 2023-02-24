@@ -1,12 +1,18 @@
 <template>
   <header class="header">
-    <div class="header__content">
+    <div
+    class="header__content"
+    :class="{ 'header__content--wide': isWideHeader }">
       <RouterLink
       class="logo"
       :to="{ name: 'main' }"/>
 
       <nav class="header__navigation">
         <ul class="header__navigation-list">
+          <RouterLink :to="{ name: 'users' }">
+            <Icon icon="search"/>
+          </RouterLink>
+
           <li
           v-if="!currentUser"
           class="header__navigation-item">
@@ -64,11 +70,12 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref, computed } from 'vue';
   import { storeToRefs } from 'pinia';
   import useUserStore from '@/store/useUserStore';
   import Icon from './ui-kit/Icon.vue';
   import useLogout from '../hooks/useLogout';
+  import { useRoute } from 'vue-router';
 
   export default defineComponent({
     name: 'TheHeader',
@@ -77,15 +84,21 @@
     },
     setup() {
       const isShowProfilePopup = ref(false);
+      const route = useRoute();
 
       const userStore = useUserStore();
       const { currentUser } = storeToRefs(userStore);
       const logout = useLogout();
 
+      const isWideHeader = computed(() => {
+        return route.name !== 'main';
+      });
+
       return {
         currentUser,
         isShowProfilePopup,
         logout,
+        isWideHeader,
       };
     },
   });
@@ -97,6 +110,7 @@
   .header {
     height: 80px;
     width: 100%;
+    padding: 0 80px;
 
     background: $primaryColor;
   }
@@ -109,6 +123,10 @@
     max-width: 1140px;
     height: 100%;
     margin: 0 auto;
+  }
+
+  .header__content--wide {
+    max-width: 1532px;
   }
 
   .logo {

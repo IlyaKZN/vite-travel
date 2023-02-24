@@ -1,4 +1,4 @@
-import { TUser } from '@/types/entities';
+import { TUser, TGroup } from '@/types/entities';
 
 export type TSignUpRequest = {
   username: string,
@@ -8,10 +8,19 @@ export type TSignUpRequest = {
   phoneNumber: string,
 };
 
-export type TSignUpResponse = TUser;
+export type TSignUpResponse = {
+  user: {
+    birthDate: Date,
+    email: string,
+    phoneNumber: string,
+    username: string,
+    _id: string,
+  },
+  accessToken: string,
+};
 
 export type TSignInRequest = {
-  email: string,
+  username: string,
   password: string,
 };
 
@@ -35,3 +44,26 @@ export type TUpdateUserRequest = Partial<{
   city: string;
   status: string;
 }>;
+
+export type TCreateGroupRequest = {
+  name: string;
+  password: string;
+  waypoints: string[];
+};
+
+export type TCreateGroupResponse = {
+  _id: string,
+  name: string,
+  participants: string[],
+  password: string,
+  waypoints: string[],
+};
+
+export type TSearchGroupRequest = Partial<{
+  name: string;
+  waypoint: string;
+  owner: string;
+  participants: string[];
+}>;
+
+export type TSearchGroupResponse = TGroup[];

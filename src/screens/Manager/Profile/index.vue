@@ -1,6 +1,10 @@
 <template>
   <section class="manager-profile-screen">
     <ProfileCard/>
+
+    <div class="manager-profile__feed">
+      <h3>Лента событий</h3>
+    </div>
   </section>
 </template>
 
@@ -28,8 +32,22 @@
   @use '@/styles/variables.scss' as *;
 
   .manager-profile-screen {
+    display: flex;
+    gap: 19px;
+
     width: 100%;
 
     background-color: $color-screen-background;
+  }
+
+  .manager-profile__feed {
+    width: 100%;
+    max-width: 756px;
+    min-height: 742px;
+    padding: 40px;
+
+    background-color: #fff;
+    border-radius: 18px;
+    box-shadow: 0 1px 20px 0 #00000008;
   }
 </style>
