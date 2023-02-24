@@ -41,6 +41,7 @@
       id="#date-input">
 
       <BaseButton
+      @click="searchGroup"
       class="find-group__button"
       type="submit">
         Найти группу
@@ -58,11 +59,23 @@
 <script lang="ts">
   import { defineComponent } from 'vue';
   import BaseButton from '@/components/ui-kit/Button.vue';
+  import { useRouter } from 'vue-router';
 
   export default defineComponent({
     name: 'FindGroupWidget',
     components: {
       BaseButton,
+    },
+    setup() {
+      const router = useRouter();
+
+      function searchGroup() {
+        router.push({ name: 'manager-groups' }).catch(() => {});
+      }
+
+      return {
+        searchGroup,
+      };
     },
   });
 </script>

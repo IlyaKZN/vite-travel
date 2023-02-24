@@ -8,9 +8,9 @@
 
     <div class="form__inputs-area">
       <BaseInput
-      v-model="email"
+      v-model="username"
       name="email"
-      placeholder="Электронная почта/ Номер телефона"/>
+      placeholder="Имя пользователя/ Номер телефона"/>
 
       <BaseInput
       v-model="password"
@@ -90,7 +90,7 @@
       AlternativeAuth,
     },
     setup() {
-      const email = ref('');
+      const username = ref('');
       const password = ref('');
 
       const authApi = useAuthApi();
@@ -113,7 +113,7 @@
 
       async function signIn() {
         const response = await authApi.signIn({
-          email: email.value,
+          username: username.value,
           password: password.value,
         });
 
@@ -127,7 +127,7 @@
       }
 
       return {
-        email,
+        username,
         password,
         signIn,
       };

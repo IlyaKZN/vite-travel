@@ -5,6 +5,9 @@ import SignInScreen from '../screens/SignIn/index.vue';
 import ManagerScreen from '../screens/Manager/index.vue';
 import ProfileScreen from '../screens/Manager/Profile/index.vue';
 import EditorScreen from '../screens/Manager/Editor/index.vue';
+import GroupsScreen from '../screens/Manager/Groups/index.vue';
+import CreateGroupScreen from '../screens/Manager/CreateGroup/index.vue';
+import UsersScreen from '../screens/Users/index.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -27,6 +30,16 @@ const routes: Array<RouteRecordRaw> = [
         path: 'editor',
         component: EditorScreen,
       },
+      {
+        name: 'manager-groups',
+        path: 'groups',
+        component: GroupsScreen,
+      },
+      {
+        name: 'manager-create-group',
+        path: 'create-group',
+        component: CreateGroupScreen,
+      },
     ],
   },
   {
@@ -43,6 +56,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'profile',
     path: '/profile',
     component: ProfileScreen,
+  },
+  {
+    name: 'users',
+    path: '/users',
+    component: UsersScreen,
   },
 ];
 

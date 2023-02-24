@@ -82,12 +82,14 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref, watch } from 'vue';
+  import { storeToRefs } from 'pinia';
   import BaseInput from '../ui-kit/Input.vue';
   import BaseButton from '../ui-kit/Button.vue';
   import AlternativeAuth from './AlternativeAuth.vue';
   import useAuthApi from '@/core/hooks/useAuthApi';
   import useUserStore from '@/store/useUserStore';
+  import { useRouter } from 'vue-router';
 
   export default defineComponent({
     name: 'SignUpForm',
@@ -104,19 +106,40 @@
       const birthDate = ref<string>('');
       const phoneNumber = ref('');
 
+      const router = useRouter();
       const authApi = useAuthApi();
       const userStore = useUserStore();
+      const { currentUser } = storeToRefs(userStore);
+
+      watch(currentUser, () => {
+        if (currentUser.value) {
+          router.push({ name: 'main' }).catch(console.error);
+        }
+      });
+
+      function validate() {
+        if (password.value !== repeatedPassword.value) {
+          return false;
+        }
+        return true;
+      }
 
       async function signUp() {
-        if (!birthDate.value) return;
+        if (!birthDate.value || !validate()) return;
 
-        const user = await authApi.signUp({
+        const response = await authApi.signUp({
           username: username.value,
           email: email.value,
           password: password.value,
           birthDate: new Date(birthDate.value),
           phoneNumber: phoneNumber.value,
         });
+
+        if (!response) return;
+
+        const { accessToken, user } = response;
+
+        localStorage.setItem('accessToken', accessToken);
 
         userStore.$patch({ currentUser: user });
       }
