@@ -2,16 +2,15 @@
   <div class="base-input">
     <label
     class="base-input__label"
-    :class="{'base-input__label--hidden': !modelValue}"
     :for="id">
-      {{ placeholder }}
+      {{ label }}
     </label>
 
     <input
     @input="updateInput"
     class="input"
+    :min="min"
     :name="name"
-    :placeholder="placeholder"
     :type="type"
     :value="modelValue"
     :id="id">
@@ -24,7 +23,7 @@
   export default defineComponent({
     name: 'BaseInput',
     props: {
-      placeholder: {
+      label: {
         type: String,
         required: true,
       },
@@ -33,12 +32,16 @@
         required: true,
       },
       type: {
-        type: String as PropType<'text' | 'password' | 'email' | 'date'>,
+        type: String as PropType<'text' | 'password' | 'email' | 'date' | 'number' | 'range'>,
         default: 'text',
       },
       modelValue: {
-        type: [String, Number],
+        type: [String, Number, Date],
         default: '',
+      },
+      min: {
+        type: Number,
+        default: 0,
       },
     },
     emits: ['update:modelValue'],
@@ -67,8 +70,18 @@
     width: 100%;
   }
 
-  .base-input__label--hidden {
-    opacity: 0;
+  .base-input__label {
+    display: block;
+
+    padding: 0 6px;
+    width: max-content;
+
+    position: relative;
+    bottom: -10px;
+    left: 16px;
+    z-index: 1;
+
+    background-color: #fff;
   }
 
   .input {

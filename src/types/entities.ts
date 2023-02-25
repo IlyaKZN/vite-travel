@@ -20,4 +20,7 @@ export type TGroup = {
   waypoints: string[];
   owner: string;
   participants: string[];
+  numberParticipants: number;
+  minAge: number;
+  maxAge: number;
 };

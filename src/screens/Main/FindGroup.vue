@@ -16,7 +16,7 @@
 
       <input
       class="find-group__input"
-      placeholder="Откуда"
+      label="Откуда"
       type="text"
       id="#starting-point-input">
 
@@ -26,7 +26,7 @@
 
       <input
       class="find-group__input"
-      placeholder="Куда"
+      label="Куда"
       type="text"
       id="#finishing-point-input">
 
@@ -36,7 +36,7 @@
 
       <input
       class="find-group__input"
-      placeholder="Когда"
+      label="Когда"
       type="text"
       id="#date-input">
 

@@ -9,38 +9,38 @@
     <div class="form__inputs-area">
       <BaseInput
       v-model="username"
+      label="Имя пользователя"
       name="username"
-      placeholder="Имя пользователя"
       type="text"/>
 
       <BaseInput
       v-model="email"
+      label="Электронная почта"
       name="email"
-      placeholder="Электронная почта"
       type="email"/>
 
       <BaseInput
       v-model="password"
+      label="Пароль"
       name="password"
-      placeholder="Пароль"
       type="password"/>
 
       <BaseInput
       v-model="repeatedPassword"
+      label="Подтвердите пароль"
       name="repeatedPassword"
-      placeholder="Подтвердите пароль"
       type="password"/>
 
       <BaseInput
       v-model="birthDate"
+      label="Дата рождения"
       name="test"
-      placeholder="Дата рождения"
       type="date"/>
 
       <BaseInput
       v-model="phoneNumber"
+      label="Номер телефона"
       name="test"
-      placeholder="Номер телефона"
       type="text"/>
     </div>
 

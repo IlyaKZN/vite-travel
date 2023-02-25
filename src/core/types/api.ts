@@ -38,7 +38,7 @@ export type TUpdateUserRequest = Partial<{
   avatar: string;
   firstName: string;
   lastName: string;
-  birthDate: string;
+  birthDate: Date;
   friends: string;
   country: string;
   city: string;
@@ -49,6 +49,9 @@ export type TCreateGroupRequest = {
   name: string;
   password: string;
   waypoints: string[];
+  numberParticipants: number;
+  minAge: number;
+  maxAge: number;
 };
 
 export type TCreateGroupResponse = {
@@ -67,3 +70,9 @@ export type TSearchGroupRequest = Partial<{
 }>;
 
 export type TSearchGroupResponse = TGroup[];
+
+export type TGetUsersResponse = TUser[];
+
+export type TSearchUsersRequest = {
+  searchValue: string;
+};

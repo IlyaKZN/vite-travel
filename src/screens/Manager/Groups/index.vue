@@ -18,15 +18,26 @@
 
     <BaseInput
     v-model="searchValue"
-    name="search"
-    placeholder="Поиск по названию"/>
+    label="Поиск по названию"
+    name="search"/>
 
     <div class="groups__group-list">
       <div
       v-for="group in groupList"
       :key="group._id">
         <div class="groups__group">
-          <span class="groups__group-title">{{ group.name }}</span>
+          <div class="groups__group-header">
+            <span class="groups__group-title">{{ group.name }}</span>
+
+            <Icon
+            class="groups__group-partipicants-icon"
+            icon="people_alt"
+            type="outlined"/>
+
+            <span class="groups__group-number-participants">{{ `${group.participants.length}/${group.numberParticipants}` }}</span>
+
+            <span>{{ group.minAge }}-{{ group.maxAge }}</span>
+          </div>
 
           <div class="groups__group-waypoints">
             <div
@@ -45,6 +56,7 @@
 <script lang="ts">
   import { defineComponent, ref, watch } from 'vue';
   import BaseInput from '@/components/ui-kit/Input.vue';
+  import Icon from '@/components/ui-kit/Icon.vue';
   import useGroupApi from '@/core/hooks/useGroupApi';
   import useGroupStore from '@/store/useGroupStore';
   import useUserStore from '@/store/useUserStore';
@@ -57,6 +69,7 @@
     name: 'GroupsScreen',
     components: {
       BaseInput,
+      Icon,
     },
     setup() {
       const searchValue = ref('');
@@ -182,9 +195,24 @@
     border-radius: 18px;
   }
 
+  .groups__group-header {
+    display: flex;
+    align-items: center;
+  }
+
   .groups__group-title {
     font-size: 24px;
     font-weight: 500;
+
+    margin-right: 16px;
+  }
+
+  .groups__group-partipicants-icon {
+    margin-right: 6px;
+  }
+
+  .groups__group-number-participants {
+    margin-right: 12px;
   }
 
   .groups__group-waypoints {

@@ -108,7 +108,7 @@
   @import '@/styles/variables';
 
   .header {
-    height: 80px;
+    min-height: 80px;
     width: 100%;
     padding: 0 80px;
 

@@ -7,43 +7,50 @@
 
       <img
       class="manager-editor__avatar"
-      src="https://klike.net/uploads/posts/2019-03/1551511801_1.jpg">
+      :src="currentUser?.avatar">
 
       <BaseInput
       v-model="formData.firstName"
       class="manager-editor__input"
-      name="firstName"
-      placeholder="Имя"/>
+      label="Имя"
+      name="firstName"/>
 
       <BaseInput
       v-model="formData.lastName"
       class="manager-editor__input"
-      name="lastName"
-      placeholder="Фамилия"/>
+      label="Фамилия"
+      name="lastName"/>
+
+      <BaseInput
+      v-model="formData.avatar"
+      class="manager-editor__input"
+      label="Аватар"
+      name="avatar"/>
 
       <BaseInput
       v-model="formData.birthDate"
       class="manager-editor__input"
+      label="Дата рождения"
       name="birthDate"
-      placeholder="Возраст"/>
+      type="date"/>
 
       <BaseInput
       v-model="formData.country"
       class="manager-editor__input"
-      name="country"
-      placeholder="Страна"/>
+      label="Страна"
+      name="country"/>
 
       <BaseInput
       v-model="formData.city"
       class="manager-editor__input"
-      name="city"
-      placeholder="Город"/>
+      label="Город"
+      name="city"/>
 
       <BaseInput
       v-model="formData.status"
       class="manager-editor__input"
-      name="status"
-      placeholder="Статус"/>
+      label="Статус"
+      name="status"/>
 
       <Transition name="fade">
         <div
@@ -85,6 +92,7 @@
       const formData = ref({
         firstName: currentUser.value?.firstName,
         lastName: currentUser.value?.lastName,
+        avatar: currentUser.value?.avatar,
         country: currentUser.value?.country,
         city: currentUser.value?.city,
         status: currentUser.value?.status,
@@ -95,10 +103,11 @@
         formData.value = {
           firstName: currentUser.value?.firstName || '',
           lastName: currentUser.value?.lastName || '',
+          avatar: currentUser.value?.avatar || '',
           country: currentUser.value?.country || '',
           city: currentUser.value?.city || '',
           status: currentUser.value?.status || '',
-          birthDate: currentUser.value?.birthDate || '',
+          birthDate: currentUser.value?.birthDate || new Date(),
         };
       });
 
@@ -106,7 +115,7 @@
         event.preventDefault();
 
         const {
-          city, country, firstName, lastName, status, birthDate,
+          city, country, firstName, lastName, status, birthDate, avatar,
         } = formData.value;
 
         try {
@@ -115,6 +124,7 @@
             country,
             firstName,
             lastName,
+            avatar,
             status,
             birthDate,
           });
@@ -139,6 +149,7 @@
         updateUser,
         formData,
         showSaveIndicator,
+        currentUser,
       };
     },
   });
