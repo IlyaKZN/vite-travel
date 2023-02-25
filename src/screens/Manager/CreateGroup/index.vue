@@ -9,23 +9,49 @@
 
       <BaseInput
       v-model="createGroupValue.name"
-      name="name"
-      placeholder="Название группы"/>
+      label="Название группы"
+      name="name"/>
 
       <BaseInput
       v-model="createGroupValue.startPoint"
-      name="startPoint"
-      placeholder="Откуда"/>
+      label="Откуда"
+      name="startPoint"/>
 
       <BaseInput
       v-model="createGroupValue.endPoint"
-      name="endPoint"
-      placeholder="Куда"/>
+      label="Куда"
+      name="endPoint"/>
+
+      <BaseInput
+      v-model="createGroupValue.numberParticipants"
+      label="Количество участников"
+      name="numberParticipants"
+      type="number"/>
+
+      <div class="create-group__age-container">
+        <span>Возраст участников</span>
+
+        <div class="create-group__age-inputs">
+          <BaseInput
+          v-model="createGroupValue.minAge"
+          label="От"
+          :min="18"
+          name="endPoint"
+          type="number"/>
+
+          <BaseInput
+          v-model="createGroupValue.maxAge"
+          label="До"
+          :min="18"
+          name="endPoint"
+          type="number"/>
+        </div>
+      </div>
 
       <BaseInput
       v-model="createGroupValue.password"
-      name="password"
-      placeholder="Пароль"/>
+      label="Пароль"
+      name="password"/>
 
       <BaseButton
       class="create-group__submit-button"
@@ -55,17 +81,23 @@
         startPoint: '',
         endPoint: '',
         password: '',
+        numberParticipants: 2,
+        minAge: 18,
+        maxAge: 18,
       });
 
       async function createGroup() {
         const {
-          name, startPoint, endPoint, password,
+          name, startPoint, endPoint, password, maxAge, minAge, numberParticipants,
         } = createGroupValue.value;
 
         const createdGroup = await groupApi.createGroup({
           name,
           password,
           waypoints: [startPoint, endPoint],
+          numberParticipants,
+          minAge,
+          maxAge,
         });
 
         console.log(createdGroup);
@@ -111,5 +143,16 @@
     align-self: flex-end;
 
     width: max-content;
+  }
+
+  .create-group__age-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .create-group__age-inputs {
+    display: flex;
+    gap: 18px;
   }
 </style>

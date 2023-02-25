@@ -9,13 +9,13 @@
     <div class="form__inputs-area">
       <BaseInput
       v-model="username"
-      name="email"
-      placeholder="Имя пользователя/ Номер телефона"/>
+      label="Имя пользователя/ Номер телефона"
+      name="email"/>
 
       <BaseInput
       v-model="password"
+      label="Пароль"
       name="password"
-      placeholder="Пароль"
       type="password"/>
     </div>
 

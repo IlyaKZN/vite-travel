@@ -10,7 +10,7 @@
 
     <img
     class="manager-profile-card__avatar"
-    src="https://klike.net/uploads/posts/2019-03/1551511801_1.jpg">
+    :src="currentUser?.avatar">
 
     <span class="manager-profile-card__name">{{ currentUser?.lastName }} {{ currentUser?.firstName }}</span>
 
@@ -52,9 +52,9 @@
     </div>
 
     <div class="manager-profile-card__info">
-      <span>Возраст: <span class="manager-profile-card__info-value">{{ currentUser?.birthDate }}</span></span>
+      <span>Возраст: <span class="manager-profile-card__info-value">{{ age }}</span></span>
 
-      <span>Город: <span class="manager-profile-card__info-value">{{ user.city }}</span></span>
+      <span>Город: <span class="manager-profile-card__info-value">{{ currentUser?.city }}</span></span>
 
       <span>О себе: <span class="manager-profile-card__info-value">{{ user.aboutMe }}</span></span>
 
@@ -64,7 +64,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue';
+  import { defineComponent, computed } from 'vue';
   import { storeToRefs } from 'pinia';
   import Icon from '@/components/ui-kit/Icon.vue';
   import BaseButton from '@/components/ui-kit/Button.vue';
@@ -79,6 +79,13 @@
     setup() {
       const userStore = useUserStore();
       const { currentUser } = storeToRefs(userStore);
+
+      const age = computed(() => {
+        if (!currentUser.value?.birthDate) return null;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        return Math.floor(((new Date().getTime() - new Date(currentUser.value?.birthDate)) / 31_557_600_000));
+      });
 
       const user = {
         name: 'Пичугин Илья',
@@ -95,6 +102,7 @@
       return {
         user,
         currentUser,
+        age,
       };
     },
   });
