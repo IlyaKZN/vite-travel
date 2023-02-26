@@ -3,12 +3,14 @@ import { defineStore } from 'pinia';
 
 type TUserState = {
   currentUser: TUser | null;
+  user: TUser | null;
   userList: TUser[] | null;
 };
 
 const useUserStore = defineStore('user', {
   state: (): TUserState => ({
     currentUser: null,
+    user: null,
     userList: null,
   }),
   actions: {

@@ -1,7 +1,9 @@
 <template>
   <div class="manager-profile-card">
     <div class="manager-profile-card__header-gradient">
-      <RouterLink :to="{ name: 'manager-editor' }">
+      <RouterLink
+      v-if="type === 'mine'"
+      :to="{ name: 'manager-editor' }">
         <Icon
         class="manager-profile-card__edit-icon"
         icon="edit"/>
@@ -10,20 +12,27 @@
 
     <img
     class="manager-profile-card__avatar"
-    :src="currentUser?.avatar">
+    :src="userData?.avatar">
 
-    <span class="manager-profile-card__name">{{ currentUser?.lastName }} {{ currentUser?.firstName }}</span>
+    <span class="manager-profile-card__name">{{ userData?.lastName }} {{ userData?.firstName }}</span>
 
-    <span class="manager-profile-card__id">id {{ currentUser?._id }}</span>
+    <span class="manager-profile-card__id">id {{ userData?._id }}</span>
 
-    <RouterLink
-    :to="{ name: 'manager-editor' }">
-      <BaseButton
-      class="manager-profile-card__edit-button"
-      styleType="outlined">
-        Редактировать профиль
-      </BaseButton>
-    </RouterLink>
+    <BaseButton
+    v-if="type === 'mine'"
+    @click="$emit('edit')"
+    class="manager-profile-card__action-button"
+    styleType="outlined">
+      Редактировать профиль
+    </BaseButton>
+
+    <BaseButton
+    v-else
+    @click="$emit('subscribe')"
+    class="manager-profile-card__action-button"
+    styleType="outlined">
+      Подписаться
+    </BaseButton>
 
     <div class="manager-profile-card__statistic">
       <div class="manager-profile-card__statistic-item">
@@ -52,9 +61,9 @@
     </div>
 
     <div class="manager-profile-card__info">
-      <span>Возраст: <span class="manager-profile-card__info-value">{{ age }}</span></span>
+      <span>Возраст: <span class="manager-profile-card__info-value">{{ userData?.age }}</span></span>
 
-      <span>Город: <span class="manager-profile-card__info-value">{{ currentUser?.city }}</span></span>
+      <span>Город: <span class="manager-profile-card__info-value">{{ userData?.city }}</span></span>
 
       <span>О себе: <span class="manager-profile-card__info-value">{{ user.aboutMe }}</span></span>
 
@@ -64,45 +73,48 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, computed } from 'vue';
-  import { storeToRefs } from 'pinia';
+  import { defineComponent, PropType, onUnmounted } from 'vue';
   import Icon from '@/components/ui-kit/Icon.vue';
   import BaseButton from '@/components/ui-kit/Button.vue';
+  import { TFormattedUser } from './index.vue';
   import useUserStore from '@/store/useUserStore';
 
   export default defineComponent({
     name: 'ProfileCard',
+    emits: ['edit', 'subscribe'],
     components: {
       Icon,
       BaseButton,
     },
+    props: {
+      userData: {
+        type: Object as PropType<TFormattedUser | null>,
+        required: true,
+      },
+      type: {
+        type: String as PropType<'mine' | 'stranger'>,
+        default: 'mine',
+      },
+    },
     setup() {
-      const userStore = useUserStore();
-      const { currentUser } = storeToRefs(userStore);
-
-      const age = computed(() => {
-        if (!currentUser.value?.birthDate) return null;
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        return Math.floor(((new Date().getTime() - new Date(currentUser.value?.birthDate)) / 31_557_600_000));
-      });
-
       const user = {
-        name: 'Пичугин Илья',
-        id: '4578563',
         rating: 8,
         subscribers: '1.4к',
         subscriptions: '12',
-        age: 24,
-        city: 'Москва',
         aboutMe: 'Лалалалала',
         URL: 'vk.com/ilya',
       };
 
+      const userStore = useUserStore();
+
+      onUnmounted(() => {
+        userStore.$patch({
+          user: null,
+        });
+      });
+
       return {
         user,
-        currentUser,
-        age,
       };
     },
   });
@@ -177,7 +189,7 @@
     margin-bottom: 26px;
   }
 
-  .manager-profile-card__edit-button {
+  .manager-profile-card__action-button {
     font-size: 16px;
     font-weight: 700;
     line-height: 20px;

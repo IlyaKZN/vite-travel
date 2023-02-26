@@ -1,10 +1,19 @@
 import API_URL from '../constants';
 import {
- TGetMeResponse, TUpdateUserRequest, TGetUsersResponse, TSearchUsersRequest,
+ TGetMeResponse, TUpdateUserRequest, TGetUsersResponse, TSearchUsersRequest, TGetUserResponse,
 } from '../types/api';
 import checkResponse from '../utils';
 
 export default function useUserApi() {
+  async function getUser(groupId: string): Promise<TGetUserResponse | null> {
+    return fetch(`${API_URL}/users/${groupId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+    }).then(checkResponse).then((res) => res as TGetUserResponse).catch(() => null);
+  }
+
   async function getMe(): Promise<TGetMeResponse | null> {
     return fetch(`${API_URL}/users/me`, {
       method: 'GET',
@@ -48,6 +57,7 @@ export default function useUserApi() {
   }
 
   return {
+    getUser,
     getMe,
     updateUser,
     getUsers,

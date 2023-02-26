@@ -29,6 +29,8 @@ export type TSignInResponse = {
   user: TUser,
 };
 
+export type TGetUserResponse = TUser;
+
 export type TGetMeResponse = TUser;
 
 export type TGetUsersResponse = TUser[];
