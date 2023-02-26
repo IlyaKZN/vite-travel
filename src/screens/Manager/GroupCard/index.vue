@@ -47,12 +47,18 @@
             </div>
           </div>
 
-          <BaseInput
-          v-model="messageValue"
-          @keydown.enter="sendMessage"
-          class="group-card__msg-input"
-          label="Сообщение"
-          name="textMessage"/>
+          <div class="group-card__message-input-container">
+            <BaseInput
+            v-model="messageValue"
+            @keydown.enter="sendMessage"
+            class="group-card__msg-input"
+            name="textMessage"/>
+
+            <Icon
+            @click="sendMessage"
+            class="group-card__send-icon"
+            icon="send"/>
+          </div>
         </div>
       </div>
     </div>
@@ -61,7 +67,7 @@
 
 <script lang="ts">
   import {
-    defineComponent, onMounted, onUnmounted, ref, watch,
+    defineComponent, onMounted, onUnmounted, ref, watch, nextTick,
   } from 'vue';
   import useGroupApi from '@/core/hooks/useGroupApi';
   import useWebSocket from '@/core/hooks/useWebSocket';
@@ -71,7 +77,6 @@
   import Icon from '@/components/ui-kit/Icon.vue';
   import BaseButton from '@/components/ui-kit/Button.vue';
   import BaseInput from '@/components/ui-kit/Input.vue';
-  import { TMessage } from '@/types/entities';
 
   export default defineComponent({
     name: 'GroupCardScreen',
@@ -84,12 +89,14 @@
       const messageValue = ref('');
 
       const groupApi = useGroupApi();
-      const { sendChatMessage } = useWebSocket();
+      const webSocket = useWebSocket();
 
       const groupStore = useGroupStore();
       const userStore = useUserStore();
       const { group } = storeToRefs(groupStore);
       const { currentUser } = storeToRefs(userStore);
+
+      webSocket.subscribe('message', (payload) => groupStore.addMessage(payload));
 
       async function getGroup(groupId: string) {
         try {
@@ -128,7 +135,7 @@
       function sendMessage() {
         if (!groupStore.group?._id) return;
 
-        sendChatMessage({
+        webSocket.emitMessage('message', {
           text: messageValue.value,
           chatId: groupStore.group.chat._id,
         });
@@ -136,19 +143,13 @@
         messageValue.value = '';
       }
 
-      watch(() => groupStore.group?.chat.messages, () => {
+      watch(() => groupStore.group?.chat.messages, async () => {
+        await nextTick();
         const elements = document.querySelectorAll('.group-card__message');
         if (!elements) return;
 
         Array.from(elements).at(-1)?.scrollIntoView();
       }, { deep: true });
-
-      function scrollToBottom(item: TMessage, index: number) {
-        const length = groupStore.group?.chat.messages.length;
-        if (!length || index !== length - 1) return;
-
-        console.log('scrollToBottom');
-      }
 
       onMounted(() => {
         const groupId = window.location.href.split('/').at(-1);
@@ -157,6 +158,7 @@
 
       onUnmounted(() => {
         groupStore.$reset();
+        webSocket.unSubscribe('message');
       });
 
       return {
@@ -165,7 +167,6 @@
         messageValue,
         joinGroup,
         sendMessage,
-        scrollToBottom,
       };
     },
   });
@@ -226,12 +227,6 @@
     border: 1px solid $primaryColor;
   }
 
-  .group-card__msg-input {
-    align-self: flex-end;
-
-    width: max-content;
-  }
-
   .group-card__info {
     display: flex;
     flex-direction: column;
@@ -254,6 +249,7 @@
     flex-direction: column;
 
     width: 100%;
+    height: calc(100% - 62px);
     padding: 10px;
     margin-left: auto;
 
@@ -266,12 +262,29 @@
     flex-direction: column;
     gap: 4px;
 
-    height: 200px;
+    margin-bottom: 12px;
+    padding: 5px;
+    height: 100%;
     overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba(#000, 0.05);
+      border-radius: 20px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba($primaryColor, 0.3);
+      border-radius: 20px;
+    }
   }
 
   .group-card__message {
     display: flex;
+    align-items: center;
     gap: 8px;
   }
 
@@ -296,5 +309,23 @@
 
     background-color: rgba($primaryColor, 0.1);
     border-radius: 10px;
+  }
+
+  .group-card__message-input-container {
+    display: flex;
+    align-self: flex-end;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .group-card__msg-input {
+    width: max-content;
+    height: 30px;
+  }
+
+  .group-card__send-icon {
+    color: rgba($primaryColor, 0.5);
+
+    cursor: pointer;
   }
 </style>

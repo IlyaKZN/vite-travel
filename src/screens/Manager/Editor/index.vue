@@ -195,7 +195,7 @@
   }
 
   .manager-editor__input {
-    margin-bottom: 18px;
+    margin-bottom: 24px;
 
     &:last-of-type {
       margin-bottom: 38px;

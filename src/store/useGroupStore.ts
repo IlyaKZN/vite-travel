@@ -1,4 +1,4 @@
-import { TGroup } from '@/types/entities';
+import { TGroup, TMessage } from '@/types/entities';
 import { defineStore } from 'pinia';
 
 type TGroupState = {
@@ -11,6 +11,11 @@ const useGroupStore = defineStore('group', {
     group: null,
     groupList: null,
   }),
+  actions: {
+    addMessage(message: TMessage) {
+      this.group?.chat.messages.push(message);
+    },
+  },
 });
 
 export default useGroupStore;

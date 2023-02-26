@@ -125,7 +125,7 @@
   .create-group__form {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 24px;
   }
 
   .create-group__title {
@@ -148,7 +148,7 @@
   .create-group__age-container {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 14px;
   }
 
   .create-group__age-inputs {

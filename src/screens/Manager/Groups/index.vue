@@ -18,6 +18,7 @@
 
     <BaseInput
     v-model="searchValue"
+    class="groups-screen__search-input"
     label="Поиск по названию"
     name="search"/>
 
@@ -170,6 +171,8 @@
   .groups__tabs {
     display: flex;
     gap: 20px;
+
+    margin-bottom: 24px;
   }
 
   .groups__title {

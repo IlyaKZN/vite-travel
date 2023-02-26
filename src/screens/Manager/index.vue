@@ -93,6 +93,8 @@
   @use '@/styles/variables.scss' as *;
 
   .manager-screen {
+    flex-grow: 1;
+
     width: 100%;
     padding: 20px 0 34px;
 
