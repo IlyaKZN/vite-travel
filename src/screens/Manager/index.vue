@@ -64,7 +64,7 @@
         {
           icon: 'groups',
           text: 'Группы',
-          routeNames: ['manager-groups'],
+          routeNames: ['manager-groups', 'group-card'],
         },
         {
           icon: 'groups',

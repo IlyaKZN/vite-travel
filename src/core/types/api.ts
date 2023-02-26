@@ -31,6 +31,12 @@ export type TSignInResponse = {
 
 export type TGetMeResponse = TUser;
 
+export type TGetUsersResponse = TUser[];
+
+export type TSearchUsersRequest = {
+  searchValue: string;
+};
+
 export type TUpdateUserRequest = Partial<{
   email: string;
   password: string;
@@ -71,8 +77,10 @@ export type TSearchGroupRequest = Partial<{
 
 export type TSearchGroupResponse = TGroup[];
 
-export type TGetUsersResponse = TUser[];
+export type TGetGroupResponse = TGroup;
 
-export type TSearchUsersRequest = {
-  searchValue: string;
+export type TJoinGroupRequest = {
+  groupId: string;
 };
+
+export type TJoinGroupResponse = TGroup;

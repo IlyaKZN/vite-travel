@@ -8,6 +8,7 @@ import EditorScreen from '../screens/Manager/Editor/index.vue';
 import GroupsScreen from '../screens/Manager/Groups/index.vue';
 import CreateGroupScreen from '../screens/Manager/CreateGroup/index.vue';
 import UsersScreen from '../screens/Users/index.vue';
+import GroupCardScreen from '../screens/Manager/GroupCard/index.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -31,14 +32,19 @@ const routes: Array<RouteRecordRaw> = [
         component: EditorScreen,
       },
       {
+        name: 'manager-create-group',
+        path: 'create-group',
+        component: CreateGroupScreen,
+      },
+      {
         name: 'manager-groups',
         path: 'groups',
         component: GroupsScreen,
       },
       {
-        name: 'manager-create-group',
-        path: 'create-group',
-        component: CreateGroupScreen,
+        name: 'group-card',
+        path: 'groups/:id',
+        component: GroupCardScreen,
       },
     ],
   },

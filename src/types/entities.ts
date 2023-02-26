@@ -15,6 +15,7 @@ export type TUser = {
 
 export type TGroup = {
   _id: string;
+  chat: TChat;
   name: string;
   password: string;
   waypoints: string[];
@@ -23,4 +24,20 @@ export type TGroup = {
   numberParticipants: number;
   minAge: number;
   maxAge: number;
+};
+
+export type TChat = {
+  _id: string;
+  createdAt: string;
+  members: string[];
+  messages: TMessage[];
+  updatedAt: string;
+};
+
+export type TMessage = {
+  _id: string;
+  createdAt: string;
+  owner: TUser;
+  text: string;
+  updatedAt: string;
 };

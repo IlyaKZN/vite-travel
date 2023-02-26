@@ -24,28 +24,28 @@
     <div class="groups__group-list">
       <div
       v-for="group in groupList"
+      @click="() => goToGroupCard(group._id)"
+      class="groups__group"
       :key="group._id">
-        <div class="groups__group">
-          <div class="groups__group-header">
-            <span class="groups__group-title">{{ group.name }}</span>
+        <div class="groups__group-header">
+          <span class="groups__group-title">{{ group.name }}</span>
 
-            <Icon
-            class="groups__group-partipicants-icon"
-            icon="people_alt"
-            type="outlined"/>
+          <Icon
+          class="groups__group-partipicants-icon"
+          icon="people_alt"
+          type="outlined"/>
 
-            <span class="groups__group-number-participants">{{ `${group.participants.length}/${group.numberParticipants}` }}</span>
+          <span class="groups__group-number-participants">{{ `${group.participants.length}/${group.numberParticipants}` }}</span>
 
-            <span>{{ group.minAge }}-{{ group.maxAge }}</span>
-          </div>
+          <span>{{ group.minAge }}-{{ group.maxAge }}</span>
+        </div>
 
-          <div class="groups__group-waypoints">
-            <div
-            v-for="waypoint in group.waypoints"
-            class="groups__group-waypoint"
-            :key="waypoint">
-              {{ waypoint }}
-            </div>
+        <div class="groups__group-waypoints">
+          <div
+          v-for="waypoint in group.waypoints"
+          class="groups__group-waypoint"
+          :key="waypoint">
+            {{ waypoint }}
           </div>
         </div>
       </div>
@@ -55,6 +55,7 @@
 
 <script lang="ts">
   import { defineComponent, ref, watch } from 'vue';
+  import { useRouter } from 'vue-router';
   import BaseInput from '@/components/ui-kit/Input.vue';
   import Icon from '@/components/ui-kit/Icon.vue';
   import useGroupApi from '@/core/hooks/useGroupApi';
@@ -74,6 +75,7 @@
     setup() {
       const searchValue = ref('');
       const activeTab = ref<TTabs>('search');
+      const router = useRouter();
 
       const groupApi = useGroupApi();
       const groupStore = useGroupStore();
@@ -81,6 +83,13 @@
       const { currentUser } = storeToRefs(userStore);
 
       const { groupList } = storeToRefs(groupStore);
+
+      function goToGroupCard(groupId: string) {
+        router.push({
+          name: 'group-card',
+          params: { id: groupId },
+        }).catch(() => {});
+      }
 
       async function searchGroup(request: TSearchGroupRequest) {
         try {
@@ -115,6 +124,7 @@
         activeTab,
         groupList,
         searchGroup,
+        goToGroupCard,
       };
     },
   });
@@ -187,11 +197,13 @@
     flex-direction: column;
     gap: 14px;
 
-    padding: 33px 30px;
     width: 100%;
+    padding: 33px 30px;
 
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+
     background-color: rgba($primaryColor, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 18px;
   }
 
