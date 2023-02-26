@@ -13,6 +13,7 @@
   import TheFooter from './components/TheFooter.vue';
   import useUserApi from './core/hooks/useUserApi';
   import useUserStore from './store/useUserStore';
+  import useWebSocket from './core/hooks/useWebSocket';
 
   export default defineComponent({
     name: 'App',
@@ -24,6 +25,7 @@
       const route = useRoute();
       const userStore = useUserStore();
       const userApi = useUserApi();
+      useWebSocket();
 
       const showFooter = computed(() => {
         if (['main'].includes(route.name as string)) {

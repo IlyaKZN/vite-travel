@@ -1,6 +1,7 @@
 <template>
-  <div class="base-input">
+  <div class="base-input-container">
     <label
+    v-if="label"
     class="base-input__label"
     :for="id">
       {{ label }}
@@ -8,7 +9,7 @@
 
     <input
     @input="updateInput"
-    class="input"
+    class="base-input"
     :min="min"
     :name="name"
     :type="type"
@@ -25,7 +26,7 @@
     props: {
       label: {
         type: String,
-        required: true,
+        default: '',
       },
       name: {
         type: String,
@@ -66,8 +67,11 @@
 </script>
 
 <style lang="scss">
-  .base-input {
+  .base-input-container {
     width: 100%;
+    height: 56px;
+
+    position: relative;
   }
 
   .base-input__label {
@@ -76,8 +80,8 @@
     padding: 0 6px;
     width: max-content;
 
-    position: relative;
-    bottom: -10px;
+    position: absolute;
+    top: -10px;
     left: 16px;
     z-index: 1;
 
@@ -86,14 +90,14 @@
     background-color: #fff;
   }
 
-  .input {
+  .base-input {
     font-family: 'Inter';
     font-size: 18px;
 
     box-sizing: border-box;
 
+    height: 100%;
     width: 100%;
-    height: 56px;
     padding: 10px 20px;
 
     border: 1px solid rgba(0, 0, 0, 0.1);

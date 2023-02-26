@@ -1,5 +1,18 @@
 import { io } from 'socket.io-client';
-import useGroupStore from '@/store/useGroupStore';
+import { TMessage } from '@/types/entities';
+
+type TRequestPayload = {
+  'message': {
+    text: string,
+    chatId: string,
+  },
+};
+
+type TResponsePayload = {
+  'message': TMessage,
+};
+
+type TEvent = 'message';
 
 const socketOptions = {
   transportOptions: {
@@ -17,27 +30,22 @@ socket.on('connect', () => {
   console.log('websocket соединение установлено');
 });
 
-function sendChatMessage(data: { text: string, chatId: string }) {
-  socket.emit('message', data);
+function subscribe<T extends TEvent>(event: T, callback: (payload: TResponsePayload[T]) => void) {
+  socket.on<TEvent>(event, (evt, payload) => callback(payload));
+}
+
+function unSubscribe(event: string) {
+  socket.removeAllListeners(event);
+}
+
+function emitMessage<T extends TEvent>(event: T, payload: TRequestPayload[T]) {
+  socket.emit(event, payload);
 }
 
 export default function useWebSocket() {
-  const groupStore = useGroupStore();
-
-  socket.on('message', (data, payload) => {
-    const messages = groupStore.group?.chat.messages;
-    messages?.push(payload);
-
-    groupStore.$patch({
-      group: {
-        chat: {
-          messages,
-        },
-      },
-    });
-  });
-
   return {
-    sendChatMessage,
+    subscribe,
+    unSubscribe,
+    emitMessage,
   };
 }
