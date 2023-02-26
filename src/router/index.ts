@@ -23,7 +23,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         name: 'manager-profile',
-        path: 'profile',
+        path: 'profile/:id?',
         component: ProfileScreen,
       },
       {

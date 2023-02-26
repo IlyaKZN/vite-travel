@@ -8,6 +8,7 @@
 
       <div
       v-for="user in userList"
+      @click="() => openUserProfile(user)"
       class="users-screen__user"
       :key="user._id">
         <img
@@ -24,9 +25,11 @@
   import {
     defineComponent, ref, onMounted, watch,
   } from 'vue';
+  import { useRouter } from 'vue-router';
   import BaseInput from '@/components/ui-kit/Input.vue';
   import useUserApi from '@/core/hooks/useUserApi';
   import useUserStore from '@/store/useUserStore';
+  import { TUser } from '@/types/entities';
   import { storeToRefs } from 'pinia';
 
   export default defineComponent({
@@ -38,6 +41,7 @@
       const searchValue = ref('');
       const userApi = useUserApi();
       const userStore = useUserStore();
+      const router = useRouter();
       const { userList } = storeToRefs(userStore);
 
       onMounted(async () => {
@@ -63,6 +67,10 @@
         userStore.$patch({ userList: response });
       }
 
+      function openUserProfile(user: TUser) {
+        router.push({ name: 'manager-profile', params: { id: user._id } }).catch(() => {});
+      }
+
       watch(searchValue, () => {
         searchUsers().catch(() => {});
       });
@@ -70,6 +78,7 @@
       return {
         searchValue,
         userList,
+        openUserProfile,
       };
     },
   });
@@ -101,10 +110,12 @@
 
   .users-screen__user {
     display: flex;
-    align-items: center;
     gap: 20px;
+    align-items: center;
 
     padding: 10px 20px;
+
+    cursor: pointer;
 
     background-color: rgba($primaryColor, 0.1);
     border-radius: 18px;
