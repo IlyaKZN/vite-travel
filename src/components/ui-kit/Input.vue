@@ -81,6 +81,8 @@
     left: 16px;
     z-index: 1;
 
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
     background-color: #fff;
   }
 
