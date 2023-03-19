@@ -25,7 +25,7 @@
           </div>
 
           <BaseButton
-          v-if="!currentUser?._id || !group?.participants.includes(currentUser?._id)"
+          v-if="!currentUser?.id || !group?.participants.includes(currentUser?.id)"
           @click="joinGroup"
           class="group-card__join-button">
             Присоединиться
@@ -37,8 +37,8 @@
             <div
             v-for="message in group?.chat.messages"
             class="group-card__message"
-            :class="{'group-card__message--right': message.owner._id === currentUser?._id}"
-            :key="message._id">
+            :class="{'group-card__message--right': message.owner.id === currentUser?.id}"
+            :key="message.id">
               <img
               class="group-card__message-avatar"
               :src="message.owner.avatar">
@@ -96,8 +96,6 @@
       const { group } = storeToRefs(groupStore);
       const { currentUser } = storeToRefs(userStore);
 
-      webSocket.subscribe('message', (payload) => groupStore.addMessage(payload));
-
       async function getGroup(groupId: string) {
         try {
           const response = await groupApi.getGroup(groupId);
@@ -114,11 +112,11 @@
       }
 
       async function joinGroup() {
-        if (!group.value?._id) return;
+        if (!group.value?.id) return;
 
         try {
           const response = await groupApi.joinGroup({
-            groupId: group.value?._id,
+            groupId: group.value?.id,
           });
 
           if (!response) return;
@@ -133,11 +131,11 @@
       }
 
       function sendMessage() {
-        if (!groupStore.group?._id) return;
+        if (!groupStore.group?.id) return;
 
-        webSocket.emitMessage('message', {
+        webSocket.emitMessage('groupMessage', {
           text: messageValue.value,
-          chatId: groupStore.group.chat._id,
+          chatId: groupStore.group.chat.id,
         });
 
         messageValue.value = '';
@@ -150,6 +148,10 @@
 
         Array.from(elements).at(-1)?.scrollIntoView();
       }, { deep: true });
+
+      watch(() => groupStore.group, () => {
+        if (groupStore.group) webSocket.subscribe('groupMessage', (payload) => groupStore.addMessage(payload));
+      });
 
       onMounted(() => {
         const groupId = window.location.href.split('/').at(-1);

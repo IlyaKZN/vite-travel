@@ -10,7 +10,7 @@
       v-for="user in userList"
       @click="() => openUserProfile(user)"
       class="users-screen__user"
-      :key="user._id">
+      :key="user.id">
         <img
         class="users-screen__avatar"
         :src="user.avatar">
@@ -68,7 +68,7 @@
       }
 
       function openUserProfile(user: TUser) {
-        router.push({ name: 'manager-profile', params: { id: user._id } }).catch(() => {});
+        router.push({ name: 'manager-profile', params: { id: user.id } }).catch(() => {});
       }
 
       watch(searchValue, () => {

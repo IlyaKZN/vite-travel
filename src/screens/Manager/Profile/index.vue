@@ -2,7 +2,7 @@
   <section class="manager-profile-screen">
     <ProfileCard
     @edit="goToEditor"
-    :type="formattedUser?._id === currentUser?._id ? 'mine' : 'stranger'"
+    :type="formattedUser?.id === currentUser?.id ? 'mine' : 'stranger'"
     :userData="formattedUser"/>
 
     <div class="manager-profile__feed">

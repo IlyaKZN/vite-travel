@@ -14,7 +14,7 @@ export type TSignUpResponse = {
     email: string,
     phoneNumber: string,
     username: string,
-    _id: string,
+    id: number,
   },
   accessToken: string,
 };
@@ -47,7 +47,6 @@ export type TUpdateUserRequest = Partial<{
   firstName: string;
   lastName: string;
   birthDate: Date;
-  friends: string;
   country: string;
   city: string;
   status: string;
@@ -63,26 +62,24 @@ export type TCreateGroupRequest = {
 };
 
 export type TCreateGroupResponse = {
-  _id: string,
+  id: number,
   name: string,
   participants: string[],
   password: string,
   waypoints: string[],
 };
 
-export type TSearchGroupRequest = Partial<{
-  name: string;
-  waypoint: string;
-  owner: string;
-  participants: string[];
-}>;
+export type TSearchGroupsRequest = {
+  searchString: string,
+  owner?: number,
+};
 
-export type TSearchGroupResponse = TGroup[];
+export type TSearchGroupsResponse = TGroup[];
 
 export type TGetGroupResponse = TGroup;
 
 export type TJoinGroupRequest = {
-  groupId: string;
+  groupId: number;
 };
 
 export type TJoinGroupResponse = TGroup;

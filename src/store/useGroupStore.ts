@@ -9,7 +9,7 @@ type TGroupState = {
 const useGroupStore = defineStore('group', {
   state: (): TGroupState => ({
     group: null,
-    groupList: null,
+    groupList: [],
   }),
   actions: {
     addMessage(message: TMessage) {

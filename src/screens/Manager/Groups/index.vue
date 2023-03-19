@@ -25,9 +25,9 @@
     <div class="groups__group-list">
       <div
       v-for="group in groupList"
-      @click="() => goToGroupCard(group._id)"
+      @click="() => goToGroupCard(group.id)"
       class="groups__group"
-      :key="group._id">
+      :key="group.id">
         <div class="groups__group-header">
           <span class="groups__group-title">{{ group.name }}</span>
 
@@ -36,7 +36,7 @@
           icon="people_alt"
           type="outlined"/>
 
-          <span class="groups__group-number-participants">{{ `${group.participants.length}/${group.numberParticipants}` }}</span>
+          <!-- <span class="groups__group-number-participants">{{ `${group.participants.length}/${group.numberParticipants}` }}</span> -->
 
           <span>{{ group.minAge }}-{{ group.maxAge }}</span>
         </div>
@@ -63,7 +63,6 @@
   import useGroupStore from '@/store/useGroupStore';
   import useUserStore from '@/store/useUserStore';
   import { storeToRefs } from 'pinia';
-  import { TSearchGroupRequest } from '@/core/types/api';
 
   type TTabs = 'search' | 'control';
 
@@ -85,16 +84,19 @@
 
       const { groupList } = storeToRefs(groupStore);
 
-      function goToGroupCard(groupId: string) {
+      function goToGroupCard(groupId: number) {
         router.push({
           name: 'group-card',
           params: { id: groupId },
         }).catch(() => {});
       }
 
-      async function searchGroup(request: TSearchGroupRequest) {
+      async function searchGroups(request?: { owner?: number }) {
         try {
-          const response = await groupApi.searchGroup(request);
+          const response = await groupApi.searchGroups({
+            searchString: searchValue.value,
+            owner: request?.owner,
+          });
 
           if (!response) return;
 
@@ -107,16 +109,17 @@
         }
       }
 
-      watch(searchValue, () => searchGroup({ name: searchValue.value }));
+      watch(searchValue, searchGroups);
 
       watch([activeTab, currentUser], () => {
         if (!currentUser.value) return;
 
         if (activeTab.value === 'control') {
-          searchGroup({ owner: currentUser?.value?._id }).catch(() => {});
+          searchGroups({
+            owner: currentUser.value.id,
+          }).catch(console.error);
         } else {
-          // searchGroup({ participants: [`${currentUser.value._id}`] }).catch(() => {});
-          searchGroup({}).catch(() => {});
+          searchGroups().catch(console.error);
         }
       }, { immediate: true });
 
@@ -124,7 +127,6 @@
         searchValue,
         activeTab,
         groupList,
-        searchGroup,
         goToGroupCard,
       };
     },

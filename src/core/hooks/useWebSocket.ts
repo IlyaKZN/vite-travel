@@ -1,18 +1,19 @@
 import { io } from 'socket.io-client';
 import { TMessage } from '@/types/entities';
+import useGroupStore from '@/store/useGroupStore';
 
 type TRequestPayload = {
-  'message': {
+  'groupMessage': {
     text: string,
-    chatId: string,
+    chatId: number,
   },
 };
 
 type TResponsePayload = {
-  'message': TMessage,
+  'groupMessage': TMessage,
 };
 
-type TEvent = 'message';
+type TEvent = 'groupMessage';
 
 const socketOptions = {
   transportOptions: {
@@ -31,7 +32,11 @@ socket.on('connect', () => {
 });
 
 function subscribe<T extends TEvent>(event: T, callback: (payload: TResponsePayload[T]) => void) {
-  socket.on<TEvent>(event, (evt, payload) => callback(payload));
+  socket.on<TEvent>(event, (payload) => callback(payload));
+  if (event === 'groupMessage') {
+    const groupStore = useGroupStore();
+    socket.emit('subscribe', { event, chatId: groupStore.group?.chat.id });
+  }
 }
 
 function unSubscribe(event: string) {

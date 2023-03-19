@@ -16,7 +16,7 @@
 
     <span class="manager-profile-card__name">{{ userData?.lastName }} {{ userData?.firstName }}</span>
 
-    <span class="manager-profile-card__id">id {{ userData?._id }}</span>
+    <span class="manager-profile-card_id">id {{ userData?.id }}</span>
 
     <BaseButton
     v-if="type === 'mine'"
@@ -181,7 +181,7 @@
     margin-bottom: 11px;
   }
 
-  .manager-profile-card__id {
+  .manager-profile-card_id {
     font-size: 16px;
     line-height: 20px;
     color: rgba(#000, 0.6);

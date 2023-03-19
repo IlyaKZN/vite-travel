@@ -1,13 +1,14 @@
-import API_URL from '../constants';
 import {
+ TSearchGroupsRequest,
+ TSearchGroupsResponse,
  TCreateGroupRequest,
  TCreateGroupResponse,
- TSearchGroupRequest,
- TSearchGroupResponse,
  TGetGroupResponse,
  TJoinGroupRequest,
  TJoinGroupResponse,
 } from '../types/api';
+import API_URL from '../constants';
+
 import checkResponse from '../utils';
 
 export default function useGroupApi() {
@@ -31,7 +32,7 @@ export default function useGroupApi() {
     }).then(checkResponse).then((res) => res as TCreateGroupResponse).catch(() => null);
   }
 
-  async function searchGroup(request: TSearchGroupRequest) {
+  async function searchGroups(request: TSearchGroupsRequest) {
     return fetch(`${API_URL}/groups/search`, {
       method: 'POST',
       headers: {
@@ -39,7 +40,7 @@ export default function useGroupApi() {
         authorization: `Bearer ${localStorage.accessToken as string}`,
       },
       body: JSON.stringify(request),
-    }).then(checkResponse).then((res) => res as TSearchGroupResponse).catch(() => null);
+    }).then(checkResponse).then((res) => res as TSearchGroupsResponse).catch(() => null);
   }
 
   async function joinGroup(request: TJoinGroupRequest) {
@@ -55,7 +56,7 @@ export default function useGroupApi() {
 
   return {
     createGroup,
-    searchGroup,
+    searchGroups,
     getGroup,
     joinGroup,
   };

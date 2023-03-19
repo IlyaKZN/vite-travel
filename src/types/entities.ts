@@ -1,5 +1,5 @@
 export type TUser = {
-  _id: string;
+  id: number;
   email: string;
   phoneNumber: string;
   username: string;
@@ -14,28 +14,28 @@ export type TUser = {
 };
 
 export type TGroup = {
-  _id: string;
+  id: number;
   chat: TChat;
   name: string;
   password: string;
   waypoints: string[];
   owner: string;
-  participants: string[];
+  participants: number[];
   numberParticipants: number;
   minAge: number;
   maxAge: number;
 };
 
 export type TChat = {
-  _id: string;
+  id: number;
   createdAt: string;
-  members: string[];
+  members: number[];
   messages: TMessage[];
   updatedAt: string;
 };
 
 export type TMessage = {
-  _id: string;
+  id: number;
   createdAt: string;
   owner: TUser;
   text: string;
